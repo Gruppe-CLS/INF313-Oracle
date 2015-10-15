@@ -7,6 +7,8 @@
 package arbeidskrav2;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -18,9 +20,13 @@ import javax.swing.SwingWorker;
  */
 public class Grensesnitt extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Grensesnitt
-     */
+   /*
+    == GRENSESNITT - Ved opprettelse
+    =====================================================================================
+    == Setter opp de felter vi ønsker å vise ved oppstart, og skjuler annen info. 
+    == Legger også radioknappene inn i en ButtonGroup.
+    =====================================================================================
+    */
     public Grensesnitt() {
         initComponents();
         rbStudent.setSelected(true);
@@ -59,6 +65,9 @@ public class Grensesnitt extends javax.swing.JFrame {
         cbStudentnr = new javax.swing.JComboBox();
         cbFagnr = new javax.swing.JComboBox();
         jPanelSearch = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        cbStudentListe = new javax.swing.JComboBox();
+        lblStudentInfo = new javax.swing.JLabel();
         jPanelOverview = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lblAntStud = new javax.swing.JLabel();
@@ -196,15 +205,44 @@ public class Grensesnitt extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Legg til", jPanelAdd);
 
+        jPanelSearch.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelSearchComponentShown(evt);
+            }
+        });
+
+        jLabel5.setText("Velg student:");
+
+        cbStudentListe.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Velg student" }));
+        cbStudentListe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbStudentListeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelSearchLayout = new javax.swing.GroupLayout(jPanelSearch);
         jPanelSearch.setLayout(jPanelSearchLayout);
         jPanelSearchLayout.setHorizontalGroup(
             jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 522, Short.MAX_VALUE)
+            .addGroup(jPanelSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblStudentInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbStudentListe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(333, Short.MAX_VALUE))
         );
         jPanelSearchLayout.setVerticalGroup(
             jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 308, Short.MAX_VALUE)
+            .addGroup(jPanelSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cbStudentListe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(lblStudentInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(227, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Søk", jPanelSearch);
@@ -297,8 +335,15 @@ public class Grensesnitt extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    /*
+    == RADIOBUTTON - Fag
+    =====================================================================================
+    == Setter opp riktig inputfelter ved trykk på fag på "Legg til"-siden
+    =====================================================================================
+    */
     private void rbFagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFagActionPerformed
-        // TODO add your handling code here:
         lbl4.setText("");
         txt1.setVisible(true);
         txt2.setVisible(true);
@@ -310,8 +355,15 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl3.setText("Studiepoeng:");
     }//GEN-LAST:event_rbFagActionPerformed
 
+    
+    
+    /*
+    == RADIOBUTTON - Karakter
+    =====================================================================================
+    == Setter opp riktig inputfelter ved trykk på karakter på "Legg til"-siden
+    =====================================================================================
+    */
     private void rbKarakterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbKarakterActionPerformed
-        // TODO add your handling code here:
         lbl1.setText("Studentnr:");
         lbl2.setText("Fagnr:");
         lbl3.setText("Dato:");
@@ -323,8 +375,14 @@ public class Grensesnitt extends javax.swing.JFrame {
         cbStudentnr.setVisible(true);
     }//GEN-LAST:event_rbKarakterActionPerformed
 
+    
+    /*
+    == RADIOBUTTON - Student
+    =====================================================================================
+    == Setter opp riktig inputfelter ved trykk på student på "Legg til"-siden
+    =====================================================================================
+    */
     private void rbStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbStudentActionPerformed
-        // TODO add your handling code here:
         cbKarakter.setVisible(false);
         txt1.setVisible(true);
         txt2.setVisible(true);
@@ -336,6 +394,15 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl3.setText("Epost:");
     }//GEN-LAST:event_rbStudentActionPerformed
 
+    
+    
+    /*
+    == REGISTRER-knappen (btnReg)
+    =====================================================================================
+    == Vi finner først ut hvilken radio-knapp som er huket av, også legger vi inn 
+    == informasjonen i riktig tabell deretter. Det er altså 3 tilnærmet like if-tester.
+    =====================================================================================
+    */
     private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegActionPerformed
         // Legger knappene i en boolean, slik at vi kan finne ut hvilken som er valgt
         boolean student = rbStudent.isSelected();
@@ -377,6 +444,17 @@ public class Grensesnitt extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanelOverviewMouseClicked
 
+    
+    
+    /*
+    == OVERSIKT-siden
+    =====================================================================================
+    == Ved innlasting utfører vi flere operasjoner. Vi begynner med en SwingWorker 
+    == doInBackground()-funksjon som henter ut infomasjon fra DB mens vi venter. 
+    == Vi fyller ut antall studenter, strykprosent, og vi lister ut en oversikt over 
+    == alle studentene til slutt.
+    =====================================================================================
+    */
     private void jPanelOverviewComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelOverviewComponentShown
         try {
             new SwingWorker<Void, Void>() {
@@ -427,6 +505,33 @@ public class Grensesnitt extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jPanelOverviewComponentShown
+    
+    
+    /*
+    == SØK-siden
+    ==
+    == Ved innlasting av søke-siden fyller vi inn comboboxen med studennr
+    =======================================================================
+    */
+    private void jPanelSearchComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelSearchComponentShown
+        // Fyller komboboksen med studenter
+        
+        // Henter ut alle studenter:
+        try {
+            ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
+            while (rs.next()) {
+                cbStudentListe.addItem(rs.getString(1));
+            }
+            rs.close();
+            cbStudentListe.removeItemAt(0);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jPanelSearchComponentShown
+
+    private void cbStudentListeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStudentListeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbStudentListeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -467,11 +572,13 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnReg;
     private javax.swing.JComboBox cbFagnr;
     private javax.swing.JComboBox cbKarakter;
+    private javax.swing.JComboBox cbStudentListe;
     private javax.swing.JComboBox cbStudentnr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanelAdd;
     private javax.swing.JPanel jPanelOverview;
     private javax.swing.JPanel jPanelSearch;
@@ -483,6 +590,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JLabel lblAlleStudenter;
     private javax.swing.JLabel lblAntStud;
     private javax.swing.JLabel lblStrykprosent;
+    private javax.swing.JLabel lblStudentInfo;
     private javax.swing.JRadioButton rbFag;
     private javax.swing.JRadioButton rbKarakter;
     private javax.swing.JRadioButton rbStudent;
