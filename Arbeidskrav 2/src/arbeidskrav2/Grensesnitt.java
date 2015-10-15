@@ -8,7 +8,7 @@ package arbeidskrav2;
 
 /**
  *
- * @author Christian
+ * @author Christian & Ståle
  */
 public class Grensesnitt extends javax.swing.JFrame {
 
