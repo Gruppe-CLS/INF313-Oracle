@@ -529,8 +529,16 @@ public class Grensesnitt extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jPanelSearchComponentShown
 
+    
+   
+    /*
+    == SØK-siden, KLIKK på Studentlisten (komboboks)
+    =======================================================================================
+    == Ved klikk på denne komboboksen ønsker vi å printe ut informasjon om denne studenten
+    =======================================================================================
+    */
     private void cbStudentListeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStudentListeActionPerformed
-        // TODO add your handling code here:
+        // Finn ut hvem vi valgte
     }//GEN-LAST:event_cbStudentListeActionPerformed
 
     /**
