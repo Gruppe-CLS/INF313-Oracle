@@ -6,6 +6,8 @@
 
 package arbeidskrav2;
 
+import javax.swing.ButtonGroup;
+
 /**
  *
  * @author Christian & Ståle
@@ -17,6 +19,13 @@ public class Grensesnitt extends javax.swing.JFrame {
      */
     public Grensesnitt() {
         initComponents();
+        rbStudent.setSelected(true);
+        cbKarakter.setVisible(false);
+        lbl4.setText("");
+        ButtonGroup gruppe = new ButtonGroup();
+        gruppe.add(rbFag);
+        gruppe.add(rbKarakter);
+        gruppe.add(rbStudent);
     }
 
     /**
@@ -26,21 +35,182 @@ public class Grensesnitt extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanelAdd = new javax.swing.JPanel();
+        rbStudent = new javax.swing.JRadioButton();
+        rbFag = new javax.swing.JRadioButton();
+        rbKarakter = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
+        lbl1 = new javax.swing.JLabel();
+        lbl2 = new javax.swing.JLabel();
+        lbl3 = new javax.swing.JLabel();
+        txt1 = new javax.swing.JTextField();
+        txt2 = new javax.swing.JTextField();
+        txt3 = new javax.swing.JTextField();
+        btnReg = new javax.swing.JToggleButton();
+        lbl4 = new javax.swing.JLabel();
+        cbKarakter = new javax.swing.JComboBox();
+        jPanelSearch = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        rbStudent.setText("Student");
+        rbStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbStudentActionPerformed(evt);
+            }
+        });
+
+        rbFag.setText("Fag");
+        rbFag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbFagActionPerformed(evt);
+            }
+        });
+
+        rbKarakter.setText("Karakter");
+        rbKarakter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbKarakterActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Legg til ny:");
+
+        lbl1.setText("Fornavn:");
+
+        lbl2.setText("Etternavn:");
+
+        lbl3.setText("Epost:");
+
+        btnReg.setText("Registrer ny");
+
+        lbl4.setText("Karakter:");
+
+        cbKarakter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A", "B", "C", "D", "E", "F" }));
+
+        javax.swing.GroupLayout jPanelAddLayout = new javax.swing.GroupLayout(jPanelAdd);
+        jPanelAdd.setLayout(jPanelAddLayout);
+        jPanelAddLayout.setHorizontalGroup(
+            jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAddLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnReg, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelAddLayout.createSequentialGroup()
+                        .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelAddLayout.createSequentialGroup()
+                                .addComponent(lbl4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelAddLayout.createSequentialGroup()
+                                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl1)
+                                    .addComponent(lbl2)
+                                    .addComponent(lbl3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txt1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                    .addComponent(txt2)
+                                    .addComponent(txt3)))
+                            .addGroup(jPanelAddLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbStudent)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbFag)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbKarakter)))
+                        .addGap(0, 253, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelAddLayout.setVerticalGroup(
+            jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAddLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(rbStudent)
+                    .addComponent(rbFag)
+                    .addComponent(rbKarakter))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl1)
+                    .addComponent(txt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl2)
+                    .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl3)
+                    .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl4)
+                    .addComponent(cbKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addComponent(btnReg, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Legg til", jPanelAdd);
+
+        javax.swing.GroupLayout jPanelSearchLayout = new javax.swing.GroupLayout(jPanelSearch);
+        jPanelSearch.setLayout(jPanelSearchLayout);
+        jPanelSearchLayout.setHorizontalGroup(
+            jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 522, Short.MAX_VALUE)
+        );
+        jPanelSearchLayout.setVerticalGroup(
+            jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 308, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Søk", jPanelSearch);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void rbFagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFagActionPerformed
+        // TODO add your handling code here:
+        lbl4.setText("");
+        cbKarakter.setVisible(false);
+        lbl1.setText("Fagnr:");
+        lbl2.setText("Fagnavn:");
+        lbl3.setText("Studiepoeng:");
+    }//GEN-LAST:event_rbFagActionPerformed
+
+    private void rbKarakterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbKarakterActionPerformed
+        // TODO add your handling code here:
+        lbl1.setText("Studentnr:");
+        lbl2.setText("Fagnr:");
+        lbl3.setText("Dato:");
+        lbl4.setText("Karakter:");
+        cbKarakter.setVisible(true);
+    }//GEN-LAST:event_rbKarakterActionPerformed
+
+    private void rbStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbStudentActionPerformed
+        // TODO add your handling code here:
+        cbKarakter.setVisible(false);
+        lbl4.setText("");
+        lbl1.setText("Fornavn:");
+        lbl2.setText("Etternavn:");
+        lbl3.setText("Epost:");
+    }//GEN-LAST:event_rbStudentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -68,7 +238,7 @@ public class Grensesnitt extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Grensesnitt.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+ 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -78,5 +248,21 @@ public class Grensesnitt extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnReg;
+    private javax.swing.JComboBox cbKarakter;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanelAdd;
+    private javax.swing.JPanel jPanelSearch;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lbl1;
+    private javax.swing.JLabel lbl2;
+    private javax.swing.JLabel lbl3;
+    private javax.swing.JLabel lbl4;
+    private javax.swing.JRadioButton rbFag;
+    private javax.swing.JRadioButton rbKarakter;
+    private javax.swing.JRadioButton rbStudent;
+    private javax.swing.JTextField txt1;
+    private javax.swing.JTextField txt2;
+    private javax.swing.JTextField txt3;
     // End of variables declaration//GEN-END:variables
 }
