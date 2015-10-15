@@ -6,7 +6,11 @@
 
 package arbeidskrav2;
 
+import java.sql.ResultSet;
 import javax.swing.ButtonGroup;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -21,6 +25,8 @@ public class Grensesnitt extends javax.swing.JFrame {
         initComponents();
         rbStudent.setSelected(true);
         cbKarakter.setVisible(false);
+        cbFagnr.setVisible(false);
+        cbStudentnr.setVisible(false);
         lbl4.setText("");
         ButtonGroup gruppe = new ButtonGroup();
         gruppe.add(rbFag);
@@ -50,9 +56,24 @@ public class Grensesnitt extends javax.swing.JFrame {
         btnReg = new javax.swing.JToggleButton();
         lbl4 = new javax.swing.JLabel();
         cbKarakter = new javax.swing.JComboBox();
+        cbStudentnr = new javax.swing.JComboBox();
+        cbFagnr = new javax.swing.JComboBox();
         jPanelSearch = new javax.swing.JPanel();
+        jPanelOverview = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        lblAntStud = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblStrykprosent = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblAlleStudenter = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTabbedPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTabbedPane1FocusGained(evt);
+            }
+        });
 
         rbStudent.setText("Student");
         rbStudent.addActionListener(new java.awt.event.ActionListener() {
@@ -84,10 +105,19 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl3.setText("Epost:");
 
         btnReg.setText("Registrer ny");
+        btnReg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegActionPerformed(evt);
+            }
+        });
 
         lbl4.setText("Karakter:");
 
         cbKarakter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A", "B", "C", "D", "E", "F" }));
+
+        cbStudentnr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Finner studenter" }));
+
+        cbFagnr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Finner ingen fag" }));
 
         javax.swing.GroupLayout jPanelAddLayout = new javax.swing.GroupLayout(jPanelAdd);
         jPanelAdd.setLayout(jPanelAddLayout);
@@ -106,24 +136,30 @@ public class Grensesnitt extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cbKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelAddLayout.createSequentialGroup()
-                                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl1)
-                                    .addComponent(lbl2)
-                                    .addComponent(lbl3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txt1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                                    .addComponent(txt2)
-                                    .addComponent(txt3)))
-                            .addGroup(jPanelAddLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rbStudent)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rbFag)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbKarakter)))
-                        .addGap(0, 253, Short.MAX_VALUE)))
+                                .addComponent(rbKarakter))
+                            .addGroup(jPanelAddLayout.createSequentialGroup()
+                                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl1)
+                                    .addComponent(lbl2)
+                                    .addComponent(lbl3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanelAddLayout.createSequentialGroup()
+                                        .addComponent(cbStudentnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txt1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+                                    .addGroup(jPanelAddLayout.createSequentialGroup()
+                                        .addComponent(cbFagnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txt2))
+                                    .addComponent(txt3))))
+                        .addGap(0, 217, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelAddLayout.setVerticalGroup(
@@ -138,11 +174,13 @@ public class Grensesnitt extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl1)
-                    .addComponent(txt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbStudentnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl2)
-                    .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbFagnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl3)
@@ -151,7 +189,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                 .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl4)
                     .addComponent(cbKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addComponent(btnReg, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -171,6 +209,80 @@ public class Grensesnitt extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Søk", jPanelSearch);
 
+        jPanelOverview.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPanelOverviewFocusGained(evt);
+            }
+        });
+        jPanelOverview.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanelOverviewMouseClicked(evt);
+            }
+        });
+        jPanelOverview.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelOverviewComponentShown(evt);
+            }
+        });
+
+        jLabel2.setText("Antall studenter:");
+
+        lblAntStud.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
+        jLabel3.setText("Total Strykprosent:");
+
+        lblStrykprosent.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
+        jLabel4.setText("Liste over alle studenter:");
+
+        lblAlleStudenter.setBackground(new java.awt.Color(0, 0, 0));
+        lblAlleStudenter.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblAlleStudenter.setForeground(new java.awt.Color(0, 0, 0));
+        lblAlleStudenter.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout jPanelOverviewLayout = new javax.swing.GroupLayout(jPanelOverview);
+        jPanelOverview.setLayout(jPanelOverviewLayout);
+        jPanelOverviewLayout.setHorizontalGroup(
+            jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelOverviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAlleStudenter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelOverviewLayout.createSequentialGroup()
+                        .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanelOverviewLayout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lblAntStud, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanelOverviewLayout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblStrykprosent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel4))
+                        .addGap(0, 365, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelOverviewLayout.setVerticalGroup(
+            jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelOverviewLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblAntStud, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblStrykprosent, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAlleStudenter, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Oversikt", jPanelOverview);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -188,6 +300,10 @@ public class Grensesnitt extends javax.swing.JFrame {
     private void rbFagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFagActionPerformed
         // TODO add your handling code here:
         lbl4.setText("");
+        txt1.setVisible(true);
+        txt2.setVisible(true);
+        cbFagnr.setVisible(false);
+        cbStudentnr.setVisible(false);
         cbKarakter.setVisible(false);
         lbl1.setText("Fagnr:");
         lbl2.setText("Fagnavn:");
@@ -200,17 +316,117 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl2.setText("Fagnr:");
         lbl3.setText("Dato:");
         lbl4.setText("Karakter:");
+        txt1.setVisible(false);
+        txt2.setVisible(false);
         cbKarakter.setVisible(true);
+        cbFagnr.setVisible(true);
+        cbStudentnr.setVisible(true);
     }//GEN-LAST:event_rbKarakterActionPerformed
 
     private void rbStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbStudentActionPerformed
         // TODO add your handling code here:
         cbKarakter.setVisible(false);
+        txt1.setVisible(true);
+        txt2.setVisible(true);
+        cbFagnr.setVisible(false);
+        cbStudentnr.setVisible(false);
         lbl4.setText("");
         lbl1.setText("Fornavn:");
         lbl2.setText("Etternavn:");
         lbl3.setText("Epost:");
     }//GEN-LAST:event_rbStudentActionPerformed
+
+    private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegActionPerformed
+        // Legger knappene i en boolean, slik at vi kan finne ut hvilken som er valgt
+        boolean student = rbStudent.isSelected();
+        boolean fag = rbFag.isSelected();
+        boolean karakter = rbKarakter.isSelected();
+        
+        
+        // Sjekker om student er huket av ved trykk på reg
+        if (student) {
+            try {
+                String fornavn = txt1.getText();
+                String etternavn = txt2.getText();
+                String epost = txt3.getText();
+                Kontroll.kontroll.nyStudent(fornavn, etternavn, epost);
+                JOptionPane.showMessageDialog(null, "Følgende student har blitt lagt inn i databasen:" +
+                        "\n" + fornavn + " " + etternavn + " | Epost: " + epost);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+        
+        if(fag){
+            JOptionPane.showMessageDialog(null, "Du har valgt FAG!");
+        }
+        
+        if(karakter) {
+            JOptionPane.showMessageDialog(null, "Du har valgt KARAKTER!");
+        }
+    }//GEN-LAST:event_btnRegActionPerformed
+
+    private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTabbedPane1FocusGained
+
+    private void jPanelOverviewFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanelOverviewFocusGained
+    }//GEN-LAST:event_jPanelOverviewFocusGained
+
+    private void jPanelOverviewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelOverviewMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanelOverviewMouseClicked
+
+    private void jPanelOverviewComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelOverviewComponentShown
+        try {
+            new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    // Henter ut alle studenter:
+                    String uttekst = "<html>";
+                    String nr, passord, fnavn, enavn, epost;
+                    try {
+                        ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
+                        while (rs.next()) {
+                            nr = rs.getString(1);
+                            passord = rs.getString(2);
+                            fnavn = rs.getString(3);
+                            enavn = rs.getString(4);
+                            epost = rs.getString(5);
+                            uttekst = uttekst + nr + ", "+passord+", "+fnavn + ", " + enavn + ", " + epost + "<br>";
+                        }
+                        rs.close();
+                        if (uttekst.equals("")) {
+                            uttekst = "Ingen studenter</html>";
+                            lblAlleStudenter.setText(uttekst);
+                        } else {
+                            lblAlleStudenter.setText(uttekst + "</html>");
+                        }
+                        
+                        // Henter ut Antall Studenter
+                        int antStud = Kontroll.kontroll.getAntallStudenter();
+                        String ut = Integer.toString(antStud);
+                        lblAntStud.setText(ut);
+                        
+                        // Hent ut strykprosent
+                        int strpro = Kontroll.kontroll.getStrykprosent();
+                        String strykprosen = Integer.toString(strpro);
+                        lblStrykprosent.setText(strykprosen + "%");
+                        
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    return null;
+                }
+                // Når søket er ferdig kjører denne:
+                protected void done() {
+                }
+            ;
+            }.execute();
+            lblAlleStudenter.setText("Søker i databasen, vennligst vent...");
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jPanelOverviewComponentShown
 
     /**
      * @param args the command line arguments
@@ -249,15 +465,24 @@ public class Grensesnitt extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnReg;
+    private javax.swing.JComboBox cbFagnr;
     private javax.swing.JComboBox cbKarakter;
+    private javax.swing.JComboBox cbStudentnr;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanelAdd;
+    private javax.swing.JPanel jPanelOverview;
     private javax.swing.JPanel jPanelSearch;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lbl4;
+    private javax.swing.JLabel lblAlleStudenter;
+    private javax.swing.JLabel lblAntStud;
+    private javax.swing.JLabel lblStrykprosent;
     private javax.swing.JRadioButton rbFag;
     private javax.swing.JRadioButton rbKarakter;
     private javax.swing.JRadioButton rbStudent;
