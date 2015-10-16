@@ -143,4 +143,19 @@ public class Kontroll {
             return "Fant ikke navn.";
         }
     }
+    
+    public ResultSet searchEtternavn(String navn) throws SQLException {
+        try {
+            String query = "{ call ? := SEARCHETTERNAVN(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.CURSOR);
+            callableStatement.setString(2, navn);
+            callableStatement.execute();
+            ResultSet rs = (ResultSet)callableStatement.getObject(1);
+            return rs;
+        } catch (SQLException e) {
+            System.out.println("noe gikk galt med funksjonen getAlleFagTilStudent()");
+            return null;
+        }
+    }
 }
