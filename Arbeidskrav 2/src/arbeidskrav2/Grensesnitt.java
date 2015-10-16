@@ -7,8 +7,11 @@
 package arbeidskrav2;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -158,17 +161,18 @@ public class Grensesnitt extends javax.swing.JFrame {
                                     .addComponent(lbl2)
                                     .addComponent(lbl3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanelAddLayout.createSequentialGroup()
-                                        .addComponent(cbStudentnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txt1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
-                                    .addGroup(jPanelAddLayout.createSequentialGroup()
-                                        .addComponent(cbFagnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txt2))
-                                    .addComponent(txt3))))
-                        .addGap(0, 217, Short.MAX_VALUE)))
+                                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanelAddLayout.createSequentialGroup()
+                                            .addComponent(cbStudentnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(txt1))
+                                        .addGroup(jPanelAddLayout.createSequentialGroup()
+                                            .addComponent(cbFagnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(0, 152, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelAddLayout.setVerticalGroup(
@@ -226,12 +230,14 @@ public class Grensesnitt extends javax.swing.JFrame {
             jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblStudentInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbStudentListe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(333, Short.MAX_VALUE))
+                    .addGroup(jPanelSearchLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbStudentListe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 321, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanelSearchLayout.setVerticalGroup(
             jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,8 +247,8 @@ public class Grensesnitt extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(cbStudentListe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(lblStudentInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addComponent(lblStudentInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Søk", jPanelSearch);
@@ -416,9 +422,8 @@ public class Grensesnitt extends javax.swing.JFrame {
                 String fornavn = txt1.getText();
                 String etternavn = txt2.getText();
                 String epost = txt3.getText();
-                Kontroll.kontroll.nyStudent(fornavn, etternavn, epost);
-                JOptionPane.showMessageDialog(null, "Følgende student har blitt lagt inn i databasen:" +
-                        "\n" + fornavn + " " + etternavn + " | Epost: " + epost);
+                String tilbakemelding = Kontroll.kontroll.nyStudent(fornavn, etternavn, epost);
+                JOptionPane.showMessageDialog(null, tilbakemelding);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -508,7 +513,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     
     
     /*
-    == SØK-siden
+    == Innlasting av SØK-siden
     ==
     == Ved innlasting av søke-siden fyller vi inn comboboxen med studennr
     =======================================================================
@@ -523,7 +528,8 @@ public class Grensesnitt extends javax.swing.JFrame {
                 cbStudentListe.addItem(rs.getString(1));
             }
             rs.close();
-            cbStudentListe.removeItemAt(0);
+            // Her kan vi evt fjerne teksten i dropdownboksen
+            //cbStudentListe.removeItemAt(0);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -538,7 +544,39 @@ public class Grensesnitt extends javax.swing.JFrame {
     =======================================================================================
     */
     private void cbStudentListeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStudentListeActionPerformed
-        // Finn ut hvem vi valgte
+        try {
+            String valgtStud, fagliste, snitt, ut;
+            int studnr;
+            fagliste = "";
+
+            // Finn valgt STUDENT
+            valgtStud = cbStudentListe.getSelectedItem().toString();
+            studnr = Integer.parseInt(valgtStud);
+            JOptionPane.showMessageDialog(null, valgtStud);
+
+            // SNITTKARAKTER til student
+            snitt = Kontroll.kontroll.getKaraktersnitt(studnr);
+
+            // Finn FAG til student
+            ResultSet rs = Kontroll.kontroll.getAlleFagTilStudent(studnr);
+            while (rs.next()) {
+                fagliste = rs.getString(1) + "\n";
+            }
+            rs.close();
+
+            // Henter ut NAVN til studenten
+            String navn;
+            navn = Kontroll.kontroll.getNavn(studnr);
+
+            // Nå har vi all info, og kan legge det ut på GUI
+            ut = "<html>"+navn +"<br>"+"Karaktersnitt: "+snitt+"<br>"+"Oppmeldte fag:"+"<br>"+fagliste+"</html>";
+            lblStudentInfo.setText(ut);
+
+        } catch (SQLException ex) {
+            System.out.println("Klarte ikke å hente ut karaktersnittet.");
+            Logger.getLogger(Grensesnitt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_cbStudentListeActionPerformed
 
     /**
