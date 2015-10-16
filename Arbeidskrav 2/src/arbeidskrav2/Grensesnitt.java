@@ -54,12 +54,16 @@ public class Grensesnitt extends javax.swing.JFrame {
         == alle studentene til slutt.
         ============================================================================
         */
+        JOptionPane messagePane = new JOptionPane(
+        "Finner database... Vennligst vent.",
+        JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = messagePane.createDialog(this, "Søker.");
          try {
             new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
                     // Henter ut alle studenter:
-                    String uttekst = "<html>";
+                    String uttekst = ""; // Ved tom liste viser vi denne
                     String nr, passord, fnavn, enavn, epost;
                     try {
                         ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
@@ -70,21 +74,16 @@ public class Grensesnitt extends javax.swing.JFrame {
                             fnavn = rs.getString(3);
                             enavn = rs.getString(4);
                             epost = rs.getString(5);
-                            uttekst = uttekst + nr + ", "+passord+", "+fnavn + ", " + enavn + ", " + epost + "<br>";
-                            // Vi legger informasjonen inn i en tabell
+                            uttekst = uttekst + nr + ", "+passord+", "+fnavn + ", " + enavn + ", " + epost ;
+                            // Vi legger informasjonen inn i tabellen
                             Object[] nyRad = {nr, passord, fnavn, enavn, epost};
                             tabell.addRow(nyRad);
-                            
                         }
                         rs.close();
-                        if (uttekst.equals("")) {
-                            Object[] n = {"ff"};
-                            tabell.addRow(n);
-                            uttekst = "Ingen studenter</html>";
-                            lblAlleStudenter.setText(uttekst);
-                        } else {
-                            lblAlleStudenter.setText(uttekst + "</html>");
-                        }
+                        if (uttekst.equals("")) {   
+                            uttekst = "Ingen studenter";
+                            lblFeilmelding.setText(uttekst);
+                        } 
                         
                         // Henter ut Antall Studenter
                         int antStud = Kontroll.kontroll.getAntallStudenter();
@@ -103,10 +102,11 @@ public class Grensesnitt extends javax.swing.JFrame {
                 }
                 // Når søket er ferdig kjører denne:
                 protected void done() {
+                    dialog.dispose();
                 }
             ;
             }.execute();
-            lblAlleStudenter.setText("Søker i databasen, vennligst vent...");
+            dialog.setVisible(true);
         } catch (Exception e) {
         }
     }
@@ -123,9 +123,9 @@ public class Grensesnitt extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lblAntStud = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        lblFeilmelding = new javax.swing.JLabel();
         lblStrykprosent = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        lblAlleStudenter = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableOversikt = new javax.swing.JTable();
         jPanelAdd = new javax.swing.JPanel();
@@ -179,13 +179,13 @@ public class Grensesnitt extends javax.swing.JFrame {
 
         jLabel3.setText("Total Strykprosent:");
 
+        lblFeilmelding.setBackground(new java.awt.Color(0, 0, 0));
+        lblFeilmelding.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblFeilmelding.setForeground(new java.awt.Color(0, 0, 0));
+
         lblStrykprosent.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         jLabel4.setText("Liste over alle studenter:");
-
-        lblAlleStudenter.setBackground(new java.awt.Color(0, 0, 0));
-        lblAlleStudenter.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblAlleStudenter.setForeground(new java.awt.Color(0, 0, 0));
 
         TableOversikt.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -219,7 +219,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblStrykprosent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblAlleStudenter, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblFeilmelding, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(122, 122, 122))))
         );
         jPanelOverviewLayout.setVerticalGroup(
@@ -235,7 +235,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                         .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(lblStrykprosent, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblAlleStudenter, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblFeilmelding, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -670,8 +670,8 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lbl4;
-    private javax.swing.JLabel lblAlleStudenter;
     private javax.swing.JLabel lblAntStud;
+    private javax.swing.JLabel lblFeilmelding;
     private javax.swing.JLabel lblStrykprosent;
     private javax.swing.JLabel lblStudentInfo;
     private javax.swing.JRadioButton rbFag;
