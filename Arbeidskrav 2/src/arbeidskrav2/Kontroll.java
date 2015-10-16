@@ -134,6 +134,7 @@ public class Kontroll {
             String query = "{ ? = call GETNAVN(?) }";
             callableStatement = conn.prepareCall(query);
             callableStatement.registerOutParameter(1,OracleTypes.VARCHAR);
+            callableStatement.setInt(2, nr);
             callableStatement.execute();
             String navn = callableStatement.getString(1);
             return navn;

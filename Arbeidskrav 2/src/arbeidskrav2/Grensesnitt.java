@@ -560,7 +560,7 @@ public class Grensesnitt extends javax.swing.JFrame {
             // Finn FAG til student
             ResultSet rs = Kontroll.kontroll.getAlleFagTilStudent(studnr);
             while (rs.next()) {
-                fagliste = rs.getString(1) + "\n";
+                fagliste = rs.getString(2) + "\n";
             }
             rs.close();
 
