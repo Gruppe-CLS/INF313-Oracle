@@ -32,15 +32,19 @@ public class Kontroll {
     == Her begynner funksjonene som skal legge inn ny data i databasen vår
     ===========================================================================
     */
-    public void nyStudent(String fornavn, String etternavn, String epost) throws SQLException {
+    public String nyStudent(String fornavn, String etternavn, String epost) throws SQLException {
         try {
-            callableStatement = conn.prepareCall("{ call NYSTUDENT(?, ? , ?) }");
+            callableStatement = conn.prepareCall("{ call NYSTUDENT(?, ? , ? , ?) }");
             callableStatement.setString(1,fornavn);
             callableStatement.setString(2, etternavn);
             callableStatement.setString(3, epost);
+            callableStatement.registerOutParameter(4, java.sql.Types.VARCHAR);
             callableStatement.executeUpdate();
+            String tilbakemelding = callableStatement.getString(4);
+            return tilbakemelding;
         } catch (Exception ex) {
-            System.out.println("Klarte ikke legge inn ny student.");
+            System.out.println(ex.getMessage());
+            return "Klarte ikke å legge til ny student.";
         }
     } // Slutt metode nyStudent
     
@@ -86,6 +90,56 @@ public class Kontroll {
             return rs;
         } catch (Exception e) {
             return 0;
+        }
+    }
+    
+    
+    /*
+    == Funksjonene til SØK-siden i programmet. Info om en enkelt student
+    ==================================================================================
+    */
+    public String getKaraktersnitt(int nr) throws SQLException {
+        try {
+            String query = "{ ? = call GETGJENNOMSNITTSTUDENT(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,Types.VARCHAR);
+            callableStatement.setInt(2, nr);
+            callableStatement.execute();
+            String snitt = callableStatement.getString(1);
+            return snitt;
+
+        } catch (SQLException e) {
+            System.out.println("Kastet ut av getKaraktersnitt().");
+            return "Ingen resultater.";
+        }
+    }
+    
+    public ResultSet getAlleFagTilStudent(int nr) throws SQLException {
+        try {
+            String query = "{ call ? := GETKURSSTUDENT(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.CURSOR);
+            callableStatement.setInt(2, nr);
+            callableStatement.execute();
+            ResultSet rs = (ResultSet)callableStatement.getObject(1);
+            return rs;
+        } catch (SQLException e) {
+            System.out.println("noe gikk galt med funksjonen getAlleFagTilStudent()");
+            return null;
+        }
+    }
+    
+    public String getNavn(int nr) throws SQLException {
+        try {
+            String query = "{ ? = call GETNAVN(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.VARCHAR);
+            callableStatement.execute();
+            String navn = callableStatement.getString(1);
+            return navn;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return "Fant ikke navn.";
         }
     }
 }
