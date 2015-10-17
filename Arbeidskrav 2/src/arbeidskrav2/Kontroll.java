@@ -49,6 +49,24 @@ public class Kontroll {
     } // Slutt metode nyStudent
     
     
+    // Nytt FAG
+    public String nyttFag(int fagnr, String fagnavn, String studiepoeng) throws SQLException {
+        try {
+            callableStatement = conn.prepareCall("{ call NYTTFAG(?, ? , ? , ?) }");
+            callableStatement.setInt(1,fagnr);
+            callableStatement.setString(2, fagnavn);
+            callableStatement.setString(3, studiepoeng);
+            callableStatement.registerOutParameter(4, java.sql.Types.VARCHAR);
+            callableStatement.executeUpdate();
+            String tilbakemelding = callableStatement.getString(4);
+            return tilbakemelding;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return "Klarte ikke å legge til nytt fag.";
+        }
+    } // Slutt metode nyttFag
+    
+    
     /*
     == Her begynner funksjonene som skal gi data til "Oversikt"-siden i programmet
     ==================================================================================

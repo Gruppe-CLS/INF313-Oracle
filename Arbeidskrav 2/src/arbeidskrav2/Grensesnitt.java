@@ -34,7 +34,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     =====================================================================================
     */
     public Grensesnitt() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);  
+        setExtendedState(JFrame.MAXIMIZED_BOTH);  // Setter fullskjerm på programmet
         initComponents();
         rbStudent.setSelected(true);
         cbKarakter.setVisible(false);
@@ -543,7 +543,6 @@ public class Grensesnitt extends javax.swing.JFrame {
         boolean fag = rbFag.isSelected();
         boolean karakter = rbKarakter.isSelected();
         
-        
         // Sjekker om student er huket av ved trykk på reg
         if (student) {
             try {
@@ -557,8 +556,17 @@ public class Grensesnitt extends javax.swing.JFrame {
             }
         }
         
-        if(fag){
-            JOptionPane.showMessageDialog(null, "Du har valgt FAG!");
+        // Legger inn FAG om rb er huket av
+        if(fag) {
+            try {
+                int fagnr = Integer.parseInt(txt1.getText());
+                String fagnavn = txt2.getText();
+                String studiepoeng = txt3.getText();
+                String tilbakemelding = Kontroll.kontroll.nyttFag(fagnr, fagnavn, studiepoeng);
+                JOptionPane.showMessageDialog(null, tilbakemelding);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
         
         if(karakter) {
