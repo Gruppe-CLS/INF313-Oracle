@@ -50,12 +50,12 @@ public class Kontroll {
     
     
     // Nytt FAG
-    public String nyttFag(int fagnr, String fagnavn, String studiepoeng) throws SQLException {
+    public String nyttFag(int fagnr, String fagnavn, int studiepoeng) throws SQLException {
         try {
             callableStatement = conn.prepareCall("{ call NYTTFAG(?, ? , ? , ?) }");
             callableStatement.setInt(1,fagnr);
             callableStatement.setString(2, fagnavn);
-            callableStatement.setString(3, studiepoeng);
+            callableStatement.setInt(3, studiepoeng);
             callableStatement.registerOutParameter(4, java.sql.Types.VARCHAR);
             callableStatement.executeUpdate();
             String tilbakemelding = callableStatement.getString(4);

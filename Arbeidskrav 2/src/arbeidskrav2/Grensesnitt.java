@@ -561,7 +561,7 @@ public class Grensesnitt extends javax.swing.JFrame {
             try {
                 int fagnr = Integer.parseInt(txt1.getText());
                 String fagnavn = txt2.getText();
-                String studiepoeng = txt3.getText();
+                int studiepoeng = Integer.parseInt(txt3.getText());
                 String tilbakemelding = Kontroll.kontroll.nyttFag(fagnr, fagnavn, studiepoeng);
                 JOptionPane.showMessageDialog(null, tilbakemelding);
             } catch (Exception ex) {
