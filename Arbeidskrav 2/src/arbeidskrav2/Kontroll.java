@@ -52,19 +52,39 @@ public class Kontroll {
     // Nytt FAG
     public String nyttFag(int fagnr, String fagnavn, int studiepoeng) throws SQLException {
         try {
-            callableStatement = conn.prepareCall("{ call NYTTFAG(?, ? , ? , ?) }");
+            callableStatement = conn.prepareCall("{ call NYTTFAG(?, ? , ?, ?) }");
             callableStatement.setInt(1,fagnr);
             callableStatement.setString(2, fagnavn);
             callableStatement.setInt(3, studiepoeng);
-            callableStatement.registerOutParameter(4, java.sql.Types.VARCHAR);
+            callableStatement.registerOutParameter(4, java.sql.Types.INTEGER);
             callableStatement.executeUpdate();
-            String tilbakemelding = callableStatement.getString(4);
-            return tilbakemelding;
-        } catch (Exception ex) {
+            int res = callableStatement.getInt(4);
+            if(res == 0) {
+                return "Klarte ikke å legge inn nytt fag. ";
+            } else {
+                return "Nytt fag har blitt lagt inn. ";
+            }            
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            return "Klarte ikke å legge til nytt fag.";
+            return ex.getMessage();
         }
     } // Slutt metode nyttFag
+    
+    // Ny KARAKTER
+    public String nyKarakter(String dato, String fagID, int studentnr, String karakter) throws SQLException {
+        try {
+            callableStatement = conn.prepareCall("{ call NYKARAKTER(?, ? , ?) }");
+            callableStatement.setString(1,dato);
+            callableStatement.setString(2, fagID);
+            callableStatement.setInt(3, studentnr);
+            callableStatement.setString(4, karakter);
+            callableStatement.executeUpdate();
+            return "Ny karakter lagt inn.";
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return ex.getMessage();
+        }
+    } // Slutt metode nyKarakter
     
     
     /*
