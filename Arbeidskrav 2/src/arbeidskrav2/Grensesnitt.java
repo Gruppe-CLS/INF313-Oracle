@@ -293,7 +293,14 @@ public class Grensesnitt extends javax.swing.JFrame {
 
         lbl3.setText("Epost:");
 
+        txt3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt3KeyTyped(evt);
+            }
+        });
+
         btnReg.setText("Registrer ny");
+        btnReg.setEnabled(false);
         btnReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegActionPerformed(evt);
@@ -317,6 +324,16 @@ public class Grensesnitt extends javax.swing.JFrame {
         });
 
         cbFagnr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Velg student" }));
+        cbFagnr.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbFagnrMouseClicked(evt);
+            }
+        });
+        cbFagnr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFagnrActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelAddLayout = new javax.swing.GroupLayout(jPanelAdd);
         jPanelAdd.setLayout(jPanelAddLayout);
@@ -497,6 +514,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl1.setText("Fagnr:");
         lbl2.setText("Fagnavn:");
         lbl3.setText("Studiepoeng:");
+        txt3.setEnabled(true);
     }//GEN-LAST:event_rbFagActionPerformed
 
     
@@ -517,6 +535,11 @@ public class Grensesnitt extends javax.swing.JFrame {
         cbKarakter.setVisible(true);
         cbFagnr.setVisible(true);
         cbStudentnr.setVisible(true);
+        
+        // disable av utfyllinger
+        cbFagnr.setEnabled(false);
+        txt3.setEnabled(false);
+        cbKarakter.setEnabled(false);
     }//GEN-LAST:event_rbKarakterActionPerformed
 
     
@@ -536,6 +559,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl1.setText("Fornavn:");
         lbl2.setText("Etternavn:");
         lbl3.setText("Epost:");
+        txt3.setEnabled(true);
     }//GEN-LAST:event_rbStudentActionPerformed
 
     
@@ -738,6 +762,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cbStudentnrMouseClicked
 
+    @SuppressWarnings("unchecked")
     private void cbStudentnrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStudentnrActionPerformed
         // TODO add your handling code here:
         String antS;
@@ -746,6 +771,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         String studnr = cbStudentnr.getSelectedItem().toString().substring(0, 6);
         snr = Integer.parseInt(studnr);
         try {
+            cbFagnr.setEnabled(true);
             cbFagnr.removeAllItems();
             cbFagnr.addItem("Velg fag");
             ResultSet rs = Kontroll.kontroll.getAlleFagTilStudent(snr);
@@ -759,14 +785,35 @@ public class Grensesnitt extends javax.swing.JFrame {
                 cbFagnr.addItem("Studenten har ingen fag"); 
             } else {
                 antS = Integer.toString(ant);
-                String tekst = "Valgt student har " + antS + " aktive fag";
-                cbFagnr.setSelectedItem(tekst);
-                //cbFagnr.addItem(tekst);
+                String tekst = "Studenten har " + antS + " aktive fag:";
+                cbFagnr.removeItemAt(0); // Tømmer linje 0
+                cbFagnr.insertItemAt(tekst, 0); // Setter inn ny info om valgt student
+                cbFagnr.setSelectedIndex(0); // Setter fokus til ny linje
             }
         } catch (Exception e) {
         }
         
     }//GEN-LAST:event_cbStudentnrActionPerformed
+
+    private void txt3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt3KeyTyped
+        if(cbFagnr.getSelectedIndex() != 0 && txt3.getText().length() == 9 && rbKarakter.isSelected()) {
+            // Om vi har valgt et fag, lengden er 10 i dato OG karakter er det som skal legges inn, så:
+            cbKarakter.setEnabled(true);
+        } else {
+            cbKarakter.setEnabled(false);
+        }
+        
+    }//GEN-LAST:event_txt3KeyTyped
+
+    private void cbFagnrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFagnrActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbFagnrActionPerformed
+
+    private void cbFagnrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbFagnrMouseClicked
+        // TODO add your handling code here:
+        txt3.setEnabled(true);
+    }//GEN-LAST:event_cbFagnrMouseClicked
 
     /**
      * @param args the command line arguments
