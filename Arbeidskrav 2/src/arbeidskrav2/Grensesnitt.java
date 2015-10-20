@@ -310,13 +310,13 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl4.setText("Karakter:");
 
         cbKarakter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A", "B", "C", "D", "E", "F" }));
-
-        cbStudentnr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Alle studenter" }));
-        cbStudentnr.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbStudentnrMouseClicked(evt);
+        cbKarakter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbKarakterActionPerformed(evt);
             }
         });
+
+        cbStudentnr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Alle studenter" }));
         cbStudentnr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbStudentnrActionPerformed(evt);
@@ -327,11 +327,6 @@ public class Grensesnitt extends javax.swing.JFrame {
         cbFagnr.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cbFagnrMouseClicked(evt);
-            }
-        });
-        cbFagnr.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbFagnrActionPerformed(evt);
             }
         });
 
@@ -605,6 +600,10 @@ public class Grensesnitt extends javax.swing.JFrame {
         
         if(karakter) {
             JOptionPane.showMessageDialog(null, "Du har valgt KARAKTER!");
+            try {
+                
+            } catch (Exception e) {
+            }
             
             
         }
@@ -727,7 +726,13 @@ public class Grensesnitt extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtSearchKeyTyped
 
-    
+    public void klarKarakter() {
+        txt3.setText("");
+        cbFagnr.setEnabled(false);
+        txt3.setEnabled(false);
+        cbKarakter.setEnabled(false);
+        btnReg.setEnabled(false);
+    }
     /*
     == INNLASTNING av "Legg til"-siden
     =======================================================================================
@@ -737,6 +742,9 @@ public class Grensesnitt extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     private void jPanelAddComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelAddComponentShown
         // Lister ut alle studenter i dropdown-boksen
+        if(rbKarakter.isSelected()) {
+            klarKarakter();
+        }
         try {
             ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
             String space = " - ";
@@ -751,17 +759,6 @@ public class Grensesnitt extends javax.swing.JFrame {
     
     
     
-    /*
-    == Klikk på COMBOBOX på legg-til ny karakter - (student)
-    =======================================================================================
-    == Skal fylle inn riktig fag i neste DDB etter valg av student
-    =======================================================================================
-    */
-    private void cbStudentnrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbStudentnrMouseClicked
-
-        
-    }//GEN-LAST:event_cbStudentnrMouseClicked
-
     @SuppressWarnings("unchecked")
     private void cbStudentnrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStudentnrActionPerformed
         // TODO add your handling code here:
@@ -805,15 +802,15 @@ public class Grensesnitt extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txt3KeyTyped
 
-    private void cbFagnrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFagnrActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_cbFagnrActionPerformed
-
     private void cbFagnrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbFagnrMouseClicked
         // TODO add your handling code here:
         txt3.setEnabled(true);
     }//GEN-LAST:event_cbFagnrMouseClicked
+
+    private void cbKarakterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbKarakterActionPerformed
+        // TODO add your handling code here:
+        btnReg.setEnabled(true);
+    }//GEN-LAST:event_cbKarakterActionPerformed
 
     /**
      * @param args the command line arguments
