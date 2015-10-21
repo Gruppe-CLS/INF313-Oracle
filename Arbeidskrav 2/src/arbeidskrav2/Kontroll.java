@@ -2,6 +2,8 @@ package arbeidskrav2;
 import java.sql.*;
 import oracle.jdbc.OracleTypes;
 import java.sql.DriverManager;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 /**
  *
  * @Skrevet av Christian
@@ -87,6 +89,8 @@ public class Kontroll {
     } // Slutt metode nyKarakter
     
     
+    // getFagKode() - Tar imot fagnavn og returnerer fagnr som int
+    // Brukes ved innlegging av ny karakter
     public int getFagKode(String fagnavn) {
         try {
             String query = "{ ? = call GETFAGKODE(?) }";
@@ -103,6 +107,17 @@ public class Kontroll {
         }
     }
     
+   
+    public boolean gyldigDato(String input) {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        format.setLenient(false);
+        try {
+            format.parse(input);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
     
     /*
     == Her begynner funksjonene som skal gi data til "Oversikt"-siden i programmet

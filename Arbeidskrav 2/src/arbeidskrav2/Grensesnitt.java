@@ -8,6 +8,7 @@ package arbeidskrav2;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -522,7 +523,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     */
     private void rbKarakterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbKarakterActionPerformed
         lbl1.setText("Studentnr:");
-        lbl2.setText("Fagnr:");
+        lbl2.setText("Fag:");
         lbl3.setText("Dato:");
         lbl4.setText("Karakter:");
         txt1.setVisible(false);
@@ -601,8 +602,32 @@ public class Grensesnitt extends javax.swing.JFrame {
         if(karakter) {
             JOptionPane.showMessageDialog(null, "Du har valgt KARAKTER!");
             try {
+                int snr, fagkode;
+                String fagnavn, studnr, dato;
                 
-            } catch (Exception e) {
+                // Henter ut studentnr og konverterer til int
+                studnr = cbStudentnr.getSelectedItem().toString().substring(0, 6);
+                snr = Integer.parseInt(studnr);
+                
+                // Henter ut fagnavn og henter fagkoden med getFagKode()
+                fagnavn = cbFagnr.getSelectedItem().toString();
+                fagkode = Kontroll.kontroll.getFagKode(fagnavn);
+                
+                // Henter ut dato
+                dato = txt3.getText();
+
+                JOptionPane.showMessageDialog(null, dato.length());
+                JOptionPane.showMessageDialog(null, dato.substring(6, 10));
+                int aar = Integer.parseInt(dato.substring(6, 10));
+                if(Kontroll.kontroll.gyldigDato(dato) && dato.length() == 10 && aar > 2014) {
+                    JOptionPane.showMessageDialog(null, "Gyldig dato!!!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "IKEK fyldig dago!");
+                }
+                
+                
+                
+            } catch (Exception ex) {
             }
             
             
