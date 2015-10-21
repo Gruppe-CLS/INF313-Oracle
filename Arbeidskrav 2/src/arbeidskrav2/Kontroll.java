@@ -281,7 +281,7 @@ public class Kontroll {
     // Oppdater karakter - Brukes med oppmelding på nytt
     public String oppdaterKarakter(int fagID, int studentnr) throws SQLException {
         try {
-            callableStatement = conn.prepareCall("{ call UPDATEKARAKTER(?, ?, ?) }");
+            callableStatement = conn.prepareCall("{ call OPPMELDINGKAR(?, ?, ?) }");
             callableStatement.setInt(1, fagID);
             callableStatement.setInt(2, studentnr);
             callableStatement.registerOutParameter(3, java.sql.Types.INTEGER);
