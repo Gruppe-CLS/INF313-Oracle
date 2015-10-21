@@ -62,9 +62,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="1044" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="1" pref="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
@@ -107,7 +107,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="402" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="98" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -268,7 +268,7 @@
                           </Group>
                           <Component id="btnReg" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="706" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -306,7 +306,7 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnReg" min="-2" pref="46" max="-2" attributes="0"/>
-                      <EmptySpace pref="315" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -450,7 +450,7 @@
                               <Component id="rbEnavn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="rbEpost" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="363" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="cbStudentListe" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="468" max="-2" attributes="0"/>
                           </Group>
@@ -482,7 +482,7 @@
                           <Component id="txtSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="lblStudentInfo" pref="437" max="32767" attributes="0"/>
+                      <Component id="lblStudentInfo" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -530,6 +530,119 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Epost"/>
               </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanelOppmelding">
+          <Events>
+            <EventHandler event="componentShown" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="jPanelOppmeldingComponentShown"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Oppmelding">
+                <Property name="tabTitle" type="java.lang.String" value="Oppmelding"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnOppmelding" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblStud" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblVelgFag" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="cbOppVelgStud" pref="215" max="32767" attributes="0"/>
+                                  <Component id="cbOppVelgFag" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblOppHarKarakter" min="-2" pref="323" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="182" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblStud" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbOppVelgStud" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblVelgFag" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbOppVelgFag" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblOppHarKarakter" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnOppmelding" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="108" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="lblStud">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Velg student:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbOppVelgStud">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="1">
+                    <StringItem index="0" value="Velg student"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbOppVelgStudActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblVelgFag">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Velg fag:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbOppVelgFag">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="1">
+                    <StringItem index="0" value="Velg fag"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbOppVelgFagActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnOppmelding">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Meld opp"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOppmeldingActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel7">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Oppmelding til fag:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblOppHarKarakter">
             </Component>
           </SubComponents>
         </Container>

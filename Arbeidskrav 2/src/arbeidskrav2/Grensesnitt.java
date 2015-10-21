@@ -163,6 +163,14 @@ public class Grensesnitt extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         rbEnavn = new javax.swing.JRadioButton();
         rbEpost = new javax.swing.JRadioButton();
+        jPanelOppmelding = new javax.swing.JPanel();
+        lblStud = new javax.swing.JLabel();
+        cbOppVelgStud = new javax.swing.JComboBox();
+        lblVelgFag = new javax.swing.JLabel();
+        cbOppVelgFag = new javax.swing.JComboBox();
+        btnOppmelding = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        lblOppHarKarakter = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -221,8 +229,8 @@ public class Grensesnitt extends javax.swing.JFrame {
                 .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelOverviewLayout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addContainerGap(1044, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanelOverviewLayout.createSequentialGroup()
                         .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanelOverviewLayout.createSequentialGroup()
@@ -254,7 +262,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -368,7 +376,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                                     .addComponent(txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(btnReg, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(706, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelAddLayout.setVerticalGroup(
             jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,7 +407,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                     .addComponent(cbKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnReg, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Legg til", jPanelAdd);
@@ -449,7 +457,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                         .addComponent(rbEnavn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rbEpost)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 363, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbStudentListe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(468, 468, 468))
                     .addGroup(jPanelSearchLayout.createSequentialGroup()
@@ -473,11 +481,86 @@ public class Grensesnitt extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblStudentInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addComponent(lblStudentInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Søk", jPanelSearch);
+
+        jPanelOppmelding.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelOppmeldingComponentShown(evt);
+            }
+        });
+
+        lblStud.setText("Velg student:");
+
+        cbOppVelgStud.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Velg student" }));
+        cbOppVelgStud.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbOppVelgStudActionPerformed(evt);
+            }
+        });
+
+        lblVelgFag.setText("Velg fag:");
+
+        cbOppVelgFag.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Velg fag" }));
+        cbOppVelgFag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbOppVelgFagActionPerformed(evt);
+            }
+        });
+
+        btnOppmelding.setText("Meld opp");
+        btnOppmelding.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOppmeldingActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Oppmelding til fag:");
+
+        javax.swing.GroupLayout jPanelOppmeldingLayout = new javax.swing.GroupLayout(jPanelOppmelding);
+        jPanelOppmelding.setLayout(jPanelOppmeldingLayout);
+        jPanelOppmeldingLayout.setHorizontalGroup(
+            jPanelOppmeldingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelOppmeldingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelOppmeldingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnOppmelding)
+                    .addComponent(jLabel7)
+                    .addGroup(jPanelOppmeldingLayout.createSequentialGroup()
+                        .addGroup(jPanelOppmeldingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStud)
+                            .addComponent(lblVelgFag))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelOppmeldingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbOppVelgStud, 0, 215, Short.MAX_VALUE)
+                            .addComponent(cbOppVelgFag, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblOppHarKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(182, Short.MAX_VALUE))
+        );
+        jPanelOppmeldingLayout.setVerticalGroup(
+            jPanelOppmeldingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelOppmeldingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelOppmeldingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStud)
+                    .addComponent(cbOppVelgStud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelOppmeldingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVelgFag)
+                    .addComponent(cbOppVelgFag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblOppHarKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOppmelding)
+                .addContainerGap(108, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Oppmelding", jPanelOppmelding);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -851,6 +934,133 @@ public class Grensesnitt extends javax.swing.JFrame {
         btnReg.setEnabled(true);
     }//GEN-LAST:event_cbKarakterActionPerformed
 
+    
+    /*
+    == INNLASTNING av "OPPMELDING"
+    =======================================================================================
+    == Viser kun frem studenter
+    =======================================================================================
+    */
+    private void jPanelOppmeldingComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelOppmeldingComponentShown
+       nullstill();
+       
+       // Lister ut alle studenter i Combobox
+       try {
+            ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
+            while (rs.next()) {
+                cbOppVelgStud.addItem(rs.getString(1) + " - " + rs.getString(3) + " " + rs.getString(4));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jPanelOppmeldingComponentShown
+
+    private void cbOppVelgStudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOppVelgStudActionPerformed
+        // TODO add your handling code here:
+        nullstill();
+        String studnr;
+        int snr;
+        // Henter ut valgt student
+        if (cbOppVelgStud.getSelectedIndex() > 0) {
+        studnr = cbOppVelgStud.getSelectedItem().toString().substring(0, 6);
+        snr = Integer.parseInt(studnr);
+
+        // Vis Combobox med alle fag
+        cbOppVelgFag.setVisible(true);
+        lblVelgFag.setVisible(true);
+        
+            try {
+                ResultSet rs = Kontroll.kontroll.getAlleFag(snr);
+                while (rs.next()) {
+                    cbOppVelgFag.addItem(rs.getString(1) + " - " + rs.getString(2));
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_cbOppVelgStudActionPerformed
+
+    private void cbOppVelgFagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOppVelgFagActionPerformed
+        // Viser knappen
+        btnOppmelding.setVisible(true);
+        
+        String studnr, karakter, fag, fagnr;
+        int snr, fagkode;
+        
+        try {
+            studnr = cbOppVelgStud.getSelectedItem().toString().substring(0, 6);
+            snr = Integer.parseInt(studnr);
+            fag = cbOppVelgFag.getSelectedItem().toString();
+            fagnr = fag.substring(0, fag.indexOf(" "));
+            fagkode = Integer.parseInt(fagnr);
+            karakter = Kontroll.kontroll.sjekkKarakter(snr, fagkode);
+            if(karakter != null) {
+                lblOppHarKarakter.setVisible(true);
+                lblOppHarKarakter.setText("Studenten har følgende karakter i dette faget: " + karakter);
+            } else {
+                lblOppHarKarakter.setVisible(true);
+                lblOppHarKarakter.setText("Ingen karakter.");
+            }
+            
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_cbOppVelgFagActionPerformed
+
+    private void btnOppmeldingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOppmeldingActionPerformed
+        String studnr, karakter, fag, fagnr, melding, dato, studenten;
+        int snr, fagkode, varsling;
+        
+        // Sjekk om student har karakter
+        try {
+            studenten = cbOppVelgStud.getSelectedItem().toString();
+            studnr = cbOppVelgStud.getSelectedItem().toString().substring(0, 6);
+            snr = Integer.parseInt(studnr);
+            fag = cbOppVelgFag.getSelectedItem().toString();
+            fagnr = fag.substring(0, fag.indexOf(" "));
+            fagkode = Integer.parseInt(fagnr);
+            karakter = Kontroll.kontroll.sjekkKarakter(snr, fagkode);
+            if(karakter != null) {
+                // Om studenten har en karakter fra før varsler vi om det før insert
+                melding = "Studenten er allerede oppført med en karakteren \"" + karakter + "\" i faget \"" + fag + "\"."+"\n"
+                        + "Ved ny oppmelding mister studenten den nåværende karakteren!"
+                        + "\n" + "\n"
+                        + "Ny oppmelding:" + "\n"
+                        + "Fag: " + fag + "\n"
+                        + "Student: " + studenten + "\n"
+                        + "\n"
+                        + "Nåværende karakter blir overskrevet, er du sikker?";
+
+                Object[] options = {"Ja", "Nei"};
+                varsling = JOptionPane.showOptionDialog(null, melding, "Oppmelding av student", YES_NO_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
+                
+                
+                // Om du svarer ja, insert. Om nei, ingenting
+                if(varsling == JOptionPane.YES_OPTION) {
+                    String svar = Kontroll.kontroll.oppdaterKarakter(fagkode, snr);
+                    JOptionPane.showMessageDialog(null, "Du trykket YES " + svar);
+                } else {
+                    JOptionPane.showMessageDialog(null, "nei");
+                }
+
+            } else {
+                lblOppHarKarakter.setVisible(true);
+                lblOppHarKarakter.setText("Ingen karakter.");
+            }
+            
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btnOppmeldingActionPerformed
+
+    public void nullstill() {
+        cbOppVelgFag.removeAllItems();
+        cbOppVelgFag.setVisible(false);
+        lblVelgFag.setVisible(false);
+        btnOppmelding.setVisible(false);
+        lblOppHarKarakter.setVisible(false);
+    }
     /**
      * @param args the command line arguments
      */
@@ -888,9 +1098,12 @@ public class Grensesnitt extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableOversikt;
+    private javax.swing.JButton btnOppmelding;
     private javax.swing.JToggleButton btnReg;
     private javax.swing.JComboBox cbFagnr;
     private javax.swing.JComboBox cbKarakter;
+    private javax.swing.JComboBox cbOppVelgFag;
+    private javax.swing.JComboBox cbOppVelgStud;
     private javax.swing.JComboBox cbStudentListe;
     private javax.swing.JComboBox cbStudentnr;
     private javax.swing.JLabel jLabel1;
@@ -899,7 +1112,9 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanelAdd;
+    private javax.swing.JPanel jPanelOppmelding;
     private javax.swing.JPanel jPanelOverview;
     private javax.swing.JPanel jPanelSearch;
     private javax.swing.JScrollPane jScrollPane1;
@@ -910,8 +1125,11 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JLabel lbl4;
     private javax.swing.JLabel lblAntStud;
     private javax.swing.JLabel lblFeilmelding;
+    private javax.swing.JLabel lblOppHarKarakter;
     private javax.swing.JLabel lblStrykprosent;
+    private javax.swing.JLabel lblStud;
     private javax.swing.JLabel lblStudentInfo;
+    private javax.swing.JLabel lblVelgFag;
     private javax.swing.JRadioButton rbEnavn;
     private javax.swing.JRadioButton rbEpost;
     private javax.swing.JRadioButton rbFag;
