@@ -75,7 +75,7 @@ public class Kontroll {
     // Ny KARAKTER
     public String nyKarakter(String dato, String fagID, int studentnr, String karakter) throws SQLException {
         try {
-            callableStatement = conn.prepareCall("{ call NYKARAKTER(?, ? , ?) }");
+            callableStatement = conn.prepareCall("{ call NYKARAKTER(?, ? , ?, ?) }");
             callableStatement.setString(1,dato);
             callableStatement.setString(2, fagID);
             callableStatement.setInt(3, studentnr);
@@ -228,4 +228,67 @@ public class Kontroll {
             return null;
         }
     }
+    
+    
+    
+    /*
+    == OPPMELDING
+    ================
+    == Vi har besluttet å la programmet få melde opp studenter som allerede har en 
+    == karakter på nytt. Altså gir vi muligheten til å prøve på nytt i et fag.
+    ==
+    == Til oppmelding trenger vi blant annet å liste ut alle fag, uavhenig om studenten
+    == har karakter eller ikke.
+    ==
+    == Men vi ønsker ikke å la brukeren melde opp studenter som allerede ER meldt opp
+    == uten karakter. 
+    ==================================================================================
+    */
+    
+    // getAlleFag henter IKKE ut fag som studenten allerede er oppmeld i
+    public ResultSet getAlleFag(int studentnr) throws SQLException {
+        try {
+            String query = "{ ? = call GETALLEKURS( ? ) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.CURSOR);
+            callableStatement.setInt(2, studentnr);
+            callableStatement.execute();
+            ResultSet rs = (ResultSet)callableStatement.getObject(1);
+            return rs;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+    
+    // Returnerer Karakteren studenten fikk i aktuelt fag. Tar imot studnr og fagkode
+    public String sjekkKarakter(int studnr, int fagkode) {
+        try {
+            String query = "{ ? = call SJEKKURS( ? , ? ) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.CHAR);
+            callableStatement.setInt(2, studnr);
+            callableStatement.setInt(3, fagkode);
+            callableStatement.execute();
+            String karakter = callableStatement.getString(1);
+            return karakter;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+    
+    // Oppdater karakter - Brukes med oppmelding på nytt
+    public String oppdaterKarakter(int fagID, int studentnr) throws SQLException {
+        try {
+            callableStatement = conn.prepareCall("{ call UPDATEKARAKTER(?, ?) }");
+            callableStatement.setInt(1, fagID);
+            callableStatement.setInt(2, studentnr);
+            callableStatement.executeUpdate();
+            return "Karakter er oppdatert";
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return ex.getMessage();
+        }
+    } // Slutt metode nyKarakter
 }
