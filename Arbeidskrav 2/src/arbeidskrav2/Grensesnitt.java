@@ -1016,10 +1016,10 @@ public class Grensesnitt extends javax.swing.JFrame {
         try {
             studenten = cbOppVelgStud.getSelectedItem().toString();
             studnr = cbOppVelgStud.getSelectedItem().toString().substring(0, 6);
-            snr = Integer.parseInt(studnr);
+            snr = Integer.parseInt(studnr.trim());
             fag = cbOppVelgFag.getSelectedItem().toString();
             fagnr = fag.substring(0, fag.indexOf(" "));
-            fagkode = Integer.parseInt(fagnr);
+            fagkode = Integer.parseInt(fagnr.trim());
             karakter = Kontroll.kontroll.sjekkKarakter(snr, fagkode);
             if(karakter != null) {
                 // Om studenten har en karakter fra før varsler vi om det før insert
@@ -1035,19 +1035,32 @@ public class Grensesnitt extends javax.swing.JFrame {
                 Object[] options = {"Ja", "Nei"};
                 varsling = JOptionPane.showOptionDialog(null, melding, "Oppmelding av student", YES_NO_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
-                
-                
+  
                 // Om du svarer ja, insert. Om nei, ingenting
                 if(varsling == JOptionPane.YES_OPTION) {
                     String svar = Kontroll.kontroll.oppdaterKarakter(fagkode, snr);
-                    JOptionPane.showMessageDialog(null, "Du trykket YES " + svar);
-                } else {
-                    JOptionPane.showMessageDialog(null, "nei");
+                    JOptionPane.showMessageDialog(null, svar);
+                    nullstill();
                 }
-
-            } else {
-                lblOppHarKarakter.setVisible(true);
-                lblOppHarKarakter.setText("Ingen karakter.");
+                
+            } else { // Om det ikke finnes noen karakter fra før, blir man meldt opp her
+                // Bedskjed om hva som meldes opp
+                melding = "Ny oppmelding:" + "\n"
+                        + "Fag: " + fag + "\n"
+                        + "Student: " + studenten + "\n"
+                        + "\n"
+                        + "Vil du melde opp denne studenten?";
+                
+                Object[] options = {"Ja", "Nei"};
+                varsling = JOptionPane.showOptionDialog(null, melding, "Oppmelding av student", YES_NO_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
+                
+                // Om du bekrefter
+                if(varsling == JOptionPane.YES_OPTION) {
+                    String svar = Kontroll.kontroll.nyOppmelding(fagkode, snr);
+                    JOptionPane.showMessageDialog(null, svar);
+                    nullstill();
+                }
             }
             
         } catch (Exception e) {

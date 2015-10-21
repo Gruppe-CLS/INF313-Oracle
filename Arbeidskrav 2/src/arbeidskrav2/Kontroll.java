@@ -288,13 +288,40 @@ public class Kontroll {
             callableStatement.executeUpdate();
             int res = callableStatement.getInt(3);
             if(res == 0) {
-                return "Klarte ikke å oppdatere karakter. ";
+                return "Ny oppmelding mislyktes.";
             } else {
-                return "Karakter er oppdatert.";
+                return "Ny oppmelding velykket";
             }     
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return ex.getMessage();
         }
-    } // Slutt metode nyKarakter
+    } // Slutt metode oppdaterKarakter
+    
+    
+    // For de som ikke har en karakter fra før
+    public String nyOppmelding(int fagID, int studentnr) throws SQLException {
+        try {
+            callableStatement = conn.prepareCall("{ call NYKARAKTER(?, ?, ?, ?, ?) }");
+            callableStatement.setDate(1, null);
+            callableStatement.setInt(2, fagID);
+            callableStatement.setInt(3, studentnr);
+            callableStatement.setString(4, null);
+            callableStatement.registerOutParameter(5, java.sql.Types.INTEGER);
+            callableStatement.executeUpdate();
+            int res = callableStatement.getInt(5);
+            if(res == 0) {
+                return "Klarte ikke å melde opp til fag.";
+            } else {
+                return "Student er oppmeldt.";
+            }     
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return ex.getMessage();
+        }
+    } // Slutt metode nyOppmelding
+    
+    
+            
+            
 }
