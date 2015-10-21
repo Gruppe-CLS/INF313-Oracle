@@ -606,20 +606,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     =====================================================================================
     */
     private void rbKarakterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbKarakterActionPerformed
-        lbl1.setText("Studentnr:");
-        lbl2.setText("Fag:");
-        lbl3.setText("Dato: (dd.mm.åååå)");
-        lbl4.setText("Karakter:");
-        txt1.setVisible(false);
-        txt2.setVisible(false);
-        cbKarakter.setVisible(true);
-        cbFagnr.setVisible(true);
-        cbStudentnr.setVisible(true);
-        
-        // disable av utfyllinger
-        cbFagnr.setEnabled(false);
-        txt3.setEnabled(false);
-        cbKarakter.setEnabled(false);
+        nullStillNyKarakter();
     }//GEN-LAST:event_rbKarakterActionPerformed
 
     
@@ -685,7 +672,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         
         if(karakter) {
             try {
-                int snr, fagkode, aar;
+                int snr, fagkode, aar, bedskjed;
                 String fagnavn, studnr, dato, valgtKarakter, melding;
                 
                 // Henter ut studentnr og konverterer til int
@@ -695,6 +682,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                 // Henter ut fagnavn og henter fagkoden med getFagKode()
                 fagnavn = cbFagnr.getSelectedItem().toString().trim();
                 fagkode = Kontroll.kontroll.getFagKode(fagnavn);
+                
                 
                 // Henter ut dato
                 dato = txt3.getText();
@@ -714,8 +702,16 @@ public class Grensesnitt extends javax.swing.JFrame {
                             + "Sikker på at du vil legge inn dette?";
 
                     Object[] options = {"Ja", "Nei"};
-                    JOptionPane.showOptionDialog(null, melding, "Legg til karakter", YES_NO_CANCEL_OPTION,
+                    bedskjed = JOptionPane.showOptionDialog(null, melding, "Legg til karakter", YES_NO_CANCEL_OPTION,
                             JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
+
+                    // Om OK, så insert
+                    if (bedskjed == JOptionPane.YES_OPTION) {
+                        String svar = Kontroll.kontroll.nyKarakter(dato, fagkode, snr, valgtKarakter);
+                        JOptionPane.showMessageDialog(null, svar);
+                        nullStillNyKarakter();
+                    }
+
                 } else {
                     JOptionPane.showMessageDialog(null, dato + " er ikke en gyldig dato.");
                     txt3.requestFocus();
@@ -731,6 +727,24 @@ public class Grensesnitt extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegActionPerformed
 
+    public void nullStillNyKarakter() {
+        lbl1.setText("Studentnr:");
+        lbl2.setText("Fag:");
+        lbl3.setText("Dato: (dd.mm.åååå)");
+        lbl4.setText("Karakter:");
+        txt1.setVisible(false);
+        txt2.setVisible(false);
+        cbKarakter.setVisible(true);
+        cbFagnr.setVisible(true);
+        cbStudentnr.setVisible(true);
+        
+        // disable av utfyllinger
+        cbFagnr.setEnabled(false);
+        txt3.setEnabled(false);
+        cbKarakter.setEnabled(false);
+    }
+    
+    
     private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_jTabbedPane1FocusGained

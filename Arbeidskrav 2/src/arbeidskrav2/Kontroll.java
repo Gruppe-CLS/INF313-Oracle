@@ -73,15 +73,21 @@ public class Kontroll {
     } // Slutt metode nyttFag
     
     // Ny KARAKTER
-    public String nyKarakter(String dato, String fagID, int studentnr, String karakter) throws SQLException {
+    public String nyKarakter(String dato, int fagID, int studentnr, String karakter) throws SQLException {
         try {
-            callableStatement = conn.prepareCall("{ call NYKARAKTER(?, ? , ?, ?) }");
-            callableStatement.setString(1,dato);
-            callableStatement.setString(2, fagID);
+            callableStatement = conn.prepareCall("{ call UPDATEKARAKTER(?, ?, ?, ?, ?) }");
+            callableStatement.setString(1, dato);
+            callableStatement.setInt(2, fagID);
             callableStatement.setInt(3, studentnr);
             callableStatement.setString(4, karakter);
+             callableStatement.registerOutParameter(5, java.sql.Types.INTEGER);
             callableStatement.executeUpdate();
-            return "Ny karakter lagt inn.";
+            int res = callableStatement.getInt(5);
+            if(res == 1) {
+                return "Ny karakter ble lagt inn.";
+            } else {
+                return "Beklager, men klarte ikke legge inn ny karakter.";
+            }   
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return ex.getMessage();
