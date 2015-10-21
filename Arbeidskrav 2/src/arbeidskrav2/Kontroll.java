@@ -91,11 +91,11 @@ public class Kontroll {
     
     // getFagKode() - Tar imot fagnavn og returnerer fagnr som int
     // Brukes ved innlegging av ny karakter
-    public int getFagKode(String fagnavn) {
+    public int getFagKode(String fagnavn) throws SQLException {
         try {
             String query = "{ ? = call GETFAGKODE(?) }";
             callableStatement = conn.prepareCall(query);
-            callableStatement.registerOutParameter(1,Types.INTEGER);
+            callableStatement.registerOutParameter(1,Types.NUMERIC);
             callableStatement.setString(2, fagnavn);
             callableStatement.execute();
             int fkode = callableStatement.getInt(1);
@@ -106,8 +106,8 @@ public class Kontroll {
             return 0;
         }
     }
-    
-   
+
+    // Gyldig dato
     public boolean gyldigDato(String input) {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         format.setLenient(false);

@@ -17,6 +17,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
@@ -524,7 +525,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     private void rbKarakterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbKarakterActionPerformed
         lbl1.setText("Studentnr:");
         lbl2.setText("Fag:");
-        lbl3.setText("Dato:");
+        lbl3.setText("Dato: (dd.mm.åååå)");
         lbl4.setText("Karakter:");
         txt1.setVisible(false);
         txt2.setVisible(false);
@@ -600,29 +601,42 @@ public class Grensesnitt extends javax.swing.JFrame {
         }
         
         if(karakter) {
-            JOptionPane.showMessageDialog(null, "Du har valgt KARAKTER!");
             try {
-                int snr, fagkode;
-                String fagnavn, studnr, dato;
+                int snr, fagkode, aar;
+                String fagnavn, studnr, dato, valgtKarakter, melding;
                 
                 // Henter ut studentnr og konverterer til int
                 studnr = cbStudentnr.getSelectedItem().toString().substring(0, 6);
                 snr = Integer.parseInt(studnr);
                 
                 // Henter ut fagnavn og henter fagkoden med getFagKode()
-                fagnavn = cbFagnr.getSelectedItem().toString();
+                fagnavn = cbFagnr.getSelectedItem().toString().trim();
                 fagkode = Kontroll.kontroll.getFagKode(fagnavn);
                 
                 // Henter ut dato
                 dato = txt3.getText();
+                aar = Integer.parseInt(dato.substring(6, 10));
+                if (Kontroll.kontroll.gyldigDato(dato) && dato.length() == 10 && aar > 2014) {
 
-                JOptionPane.showMessageDialog(null, dato.length());
-                JOptionPane.showMessageDialog(null, dato.substring(6, 10));
-                int aar = Integer.parseInt(dato.substring(6, 10));
-                if(Kontroll.kontroll.gyldigDato(dato) && dato.length() == 10 && aar > 2014) {
-                    JOptionPane.showMessageDialog(null, "Gyldig dato!!!");
+                    // Henter valgt karakter
+                    valgtKarakter = cbKarakter.getSelectedItem().toString().trim();
+
+                    // Oppretter melding, og spør bruker om alt ser ok ut før vi legger inn ny karakter
+                    melding = "Du er i ferd med å legge inn følgende: "
+                            + "\n" + "\n"
+                            + "Dato: " + dato + "\n"
+                            + "Fag: " + fagnavn + "\n"
+                            + "StudenID: " + Integer.toString(snr) + "\n"
+                            + "Karakter: " + valgtKarakter + "\n" + "\n"
+                            + "Sikker på at du vil legge inn dette?";
+
+                    Object[] options = {"Ja", "Nei"};
+                    JOptionPane.showOptionDialog(null, melding, "Legg til karakter", YES_NO_CANCEL_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
                 } else {
-                    JOptionPane.showMessageDialog(null, "IKEK fyldig dago!");
+                    JOptionPane.showMessageDialog(null, dato + " er ikke en gyldig dato.");
+                    txt3.requestFocus();
+                    txt3.selectAll();
                 }
                 
                 
