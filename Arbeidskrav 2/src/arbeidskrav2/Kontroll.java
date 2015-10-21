@@ -87,6 +87,23 @@ public class Kontroll {
     } // Slutt metode nyKarakter
     
     
+    public int getFagKode(String fagnavn) {
+        try {
+            String query = "{ ? = call GETFAGKODE(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,Types.INTEGER);
+            callableStatement.setString(2, fagnavn);
+            callableStatement.execute();
+            int fkode = callableStatement.getInt(1);
+            return fkode;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return 0;
+        }
+    }
+    
+    
     /*
     == Her begynner funksjonene som skal gi data til "Oversikt"-siden i programmet
     ==================================================================================
