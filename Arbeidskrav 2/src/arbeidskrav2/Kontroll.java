@@ -252,6 +252,20 @@ public class Kontroll {
         }
     }
     
+    public ResultSet getAlleFullforte(int studentnr) throws SQLException {
+        try {
+            String query = "{ ? = call GETFULLFØRT( ? ) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.CURSOR);
+            callableStatement.setInt(2, studentnr);
+            callableStatement.execute();
+            ResultSet rs = (ResultSet)callableStatement.getObject(1);
+            return rs;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
     
     
     /*

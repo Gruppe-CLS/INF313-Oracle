@@ -863,7 +863,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                     
                     // Finner alle fag til hver enkelt student
                     int studnr = Integer.parseInt(nr);
-                    ResultSet res = Kontroll.kontroll.getAlleFagTilStudent(studnr);
+                    ResultSet res = Kontroll.kontroll.getAlleFullforte(studnr);
                     while (res.next()) {
                         fagliste = res.getString(2);
                         String fag = res.getString(2);
