@@ -721,6 +721,9 @@ public class Grensesnitt extends javax.swing.JFrame {
                 String etternavn = txt2.getText();
                 String epost = txt3.getText();
                 String tilbakemelding = Kontroll.kontroll.nyStudent(fornavn, etternavn, epost);
+                txt1.setText("");
+                txt2.setText("");
+                txt3.setText("");
                 JOptionPane.showMessageDialog(null, tilbakemelding);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
