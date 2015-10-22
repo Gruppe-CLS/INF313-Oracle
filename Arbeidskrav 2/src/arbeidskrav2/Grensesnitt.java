@@ -673,6 +673,8 @@ public class Grensesnitt extends javax.swing.JFrame {
     */
     private void rbKarakterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbKarakterActionPerformed
         nullStillNyKarakter();
+        klarKarakter();
+        fyllInnNyKarakter();
     }//GEN-LAST:event_rbKarakterActionPerformed
 
     
@@ -693,6 +695,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl2.setText("Etternavn:");
         lbl3.setText("Epost:");
         txt3.setEnabled(true);
+        btnReg.setEnabled(true);
     }//GEN-LAST:event_rbStudentActionPerformed
 
     
@@ -714,6 +717,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         if (student) {
             try {
                 String fornavn = txt1.getText();
+                btnOppmelding.setEnabled(true);
                 String etternavn = txt2.getText();
                 String epost = txt3.getText();
                 String tilbakemelding = Kontroll.kontroll.nyStudent(fornavn, etternavn, epost);
@@ -794,7 +798,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegActionPerformed
 
     public void nullStillNyKarakter() {
-        btnOppmelding.setEnabled(false);
+        btnReg.setEnabled(false);
         lbl1.setText("Studentnr:");
         lbl2.setText("Fag:");
         lbl3.setText("Dato: (dd.mm.åååå)");
@@ -811,6 +815,18 @@ public class Grensesnitt extends javax.swing.JFrame {
         cbKarakter.setEnabled(false);
     }
     
+    public void fyllInnNyKarakter() {
+        try {
+                ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
+                String space = " - ";
+                while (rs.next()) {
+                    cbStudentnr.addItem(rs.getString(1) + " - " + rs.getString(3) + " " + rs.getString(4));
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+    }
     
     private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
         // TODO add your handling code here:
@@ -921,19 +937,12 @@ public class Grensesnitt extends javax.swing.JFrame {
     */
     @SuppressWarnings("unchecked")
     private void jPanelAddComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelAddComponentShown
+        btnReg.setEnabled(true);
+
         // Lister ut alle studenter i dropdown-boksen
-        if(rbKarakter.isSelected()) {
+        if (rbKarakter.isSelected()) {
             klarKarakter();
-        }
-        try {
-            ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
-            String space = " - ";
-            while (rs.next()) {
-                cbStudentnr.addItem(rs.getString(1) + " - " + rs.getString(3) + " " + rs.getString(4));
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            fyllInnNyKarakter();
         }
     }//GEN-LAST:event_jPanelAddComponentShown
     
