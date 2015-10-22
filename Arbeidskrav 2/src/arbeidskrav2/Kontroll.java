@@ -19,7 +19,7 @@ public class Kontroll {
     
      public void initialiserDB() {
         try {
-            conn = DriverManager.getConnection(oracleURL, "C##STAALE2", "staale_313");
+            conn = DriverManager.getConnection(oracleURL, "C##STAALE2", "inF_313");
         } catch (Exception e) {
             System.out.println("conn fungerer ikke.");
         }
@@ -52,12 +52,12 @@ public class Kontroll {
     
     
     // Nytt FAG
-    public String nyttFag(int fagnr, String fagnavn, int studiepoeng) throws SQLException {
+    public String nyttFag(int fagnr, String fagnavn, float studiepoeng) throws SQLException {
         try {
             callableStatement = conn.prepareCall("{ call NYTTFAG(?, ? , ?, ?) }");
             callableStatement.setInt(1,fagnr);
             callableStatement.setString(2, fagnavn);
-            callableStatement.setInt(3, studiepoeng);
+            callableStatement.setFloat(3, studiepoeng);
             callableStatement.registerOutParameter(4, java.sql.Types.INTEGER);
             callableStatement.executeUpdate();
             int res = callableStatement.getInt(4);
@@ -328,8 +328,23 @@ public class Kontroll {
             callableStatement.execute();
             ResultSet rs = (ResultSet)callableStatement.getObject(1);
             return rs;
-        } catch (SQLException e) {
-            System.out.println("noe gikk galt med funksjonen getAlleFagTilStudent()");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+    
+    public ResultSet searchEpost(String navn) throws SQLException {
+        try {
+            String query = "{ call ? := SEARCHEPOST(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.CURSOR);
+            callableStatement.setString(2, navn);
+            callableStatement.execute();
+            ResultSet rs = (ResultSet)callableStatement.getObject(1);
+            return rs;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return null;
         }
     }
@@ -350,6 +365,7 @@ public class Kontroll {
         }
     }
     
+    // Alle fag som en student har fått karakter i
     public ResultSet getAlleFullforte(int studentnr) throws SQLException {
         try {
             String query = "{ ? = call GETFULLFØRT( ? ) }";
@@ -381,7 +397,6 @@ public class Kontroll {
     */
     
     // getAlleFag henter ALLE fag som studenten IKKE er oppmeldt i
-    // Altså ikke fag studenten står oppført på uten karkater
     public ResultSet getAlleFag(int studentnr) throws SQLException {
         try {
             String query = "{ ? = call GETALLEKURS( ? ) }";
@@ -456,8 +471,4 @@ public class Kontroll {
             return ex.getMessage();
         }
     } // Slutt metode nyOppmelding
-    
-    
-            
-            
 }

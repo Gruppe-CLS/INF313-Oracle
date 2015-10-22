@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package arbeidskrav2;
 
 import java.sql.ResultSet;
@@ -27,14 +26,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Grensesnitt extends javax.swing.JFrame {
 
-   /*
-    == GRENSESNITT - Ved opprettelse
-    =====================================================================================
-    == Setter opp de felter vi ønsker å vise ved oppstart, og skjuler annen info. 
-    == Legger også radioknappene inn i en ButtonGroup.
-    == Vi har valgt å vise studentoversikten ved oppstart.
-    =====================================================================================
-    */
+    /*
+     == GRENSESNITT - Ved opprettelse
+     =====================================================================================
+     == Setter opp de felter vi ønsker å vise ved oppstart, og skjuler annen info. 
+     == Legger også radioknappene inn i en ButtonGroup.
+     == Vi har valgt å vise studentoversikten ved oppstart.
+     =====================================================================================
+     */
     public Grensesnitt() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);  // Setter fullskjerm på programmet
         initComponents();
@@ -43,24 +42,25 @@ public class Grensesnitt extends javax.swing.JFrame {
         cbFagnr.setVisible(false);
         cbStudentnr.setVisible(false);
         lbl4.setText("");
-        
+
         // Radioknapp-Gruppe for Legg til-side
         ButtonGroup gruppe = new ButtonGroup();
         gruppe.add(rbFag);
         gruppe.add(rbKarakter);
         gruppe.add(rbStudent);
-        
+
         // Radioknapp-gruppe for SØK-siden
         ButtonGroup searchGruppe = new ButtonGroup();
         searchGruppe.add(rbEnavn);
         searchGruppe.add(rbEpost);
-        
+
         // Radio-Gruppe for Oversikt-siden
         ButtonGroup oversikt = new ButtonGroup();
         oversikt.add(rbTotalt);
         oversikt.add(rbEmne);
-        
+
         // Laster inn oversikten
+        fyllEmneBoks();
         lastOversikt();
     }
 
@@ -104,7 +104,6 @@ public class Grensesnitt extends javax.swing.JFrame {
         cbFagnr = new javax.swing.JComboBox();
         jPanelSearch = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        cbStudentListe = new javax.swing.JComboBox();
         lblStudentInfo = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -121,6 +120,7 @@ public class Grensesnitt extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jTabbedPane1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTabbedPane1FocusGained(evt);
@@ -256,7 +256,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -320,14 +320,12 @@ public class Grensesnitt extends javax.swing.JFrame {
             }
         });
 
-        cbStudentnr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Alle studenter" }));
         cbStudentnr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbStudentnrActionPerformed(evt);
             }
         });
 
-        cbFagnr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Velg student" }));
         cbFagnr.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cbFagnrMouseClicked(evt);
@@ -414,13 +412,6 @@ public class Grensesnitt extends javax.swing.JFrame {
 
         jLabel5.setText("Søk etter student:");
 
-        cbStudentListe.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Velg student" }));
-        cbStudentListe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbStudentListeActionPerformed(evt);
-            }
-        });
-
         lblStudentInfo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -434,6 +425,11 @@ public class Grensesnitt extends javax.swing.JFrame {
         rbEnavn.setText("Etternavn");
 
         rbEpost.setText("Epost");
+        rbEpost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbEpostActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelSearchLayout = new javax.swing.GroupLayout(jPanelSearch);
         jPanelSearch.setLayout(jPanelSearchLayout);
@@ -451,9 +447,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                         .addComponent(rbEnavn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rbEpost)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbStudentListe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(468, 468, 468))
+                        .addGap(468, 565, Short.MAX_VALUE))
                     .addGroup(jPanelSearchLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -464,18 +458,16 @@ public class Grensesnitt extends javax.swing.JFrame {
             jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbStudentListe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(rbEnavn)
-                        .addComponent(rbEpost)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(rbEnavn)
+                    .addComponent(rbEpost))
+                .addGap(13, 13, 13)
                 .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblStudentInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblStudentInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -551,7 +543,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                     .addComponent(lblOppHarKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOppmelding)
-                .addContainerGap(459, Short.MAX_VALUE))
+                .addContainerGap(451, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Oppmelding", jPanelOppmelding);
@@ -572,20 +564,20 @@ public class Grensesnitt extends javax.swing.JFrame {
 
     public void lastOversikt() {
         /*
-        == OVERSIKT ALLE STUDENTER - Lastes inne i Grensesnitt()
-        ============================================================================
-        == Vi laster inn oversikten over alle studenter ved oppstart av programmet.
-        == Ved innlasting utfører vi flere operasjoner. Vi begynner med en SwingWorker 
-        == doInBackground()-funksjon som henter ut infomasjon fra DB mens vi venter. 
-        == Vi fyller ut antall studenter, strykprosent, og vi lister ut en oversikt over 
-        == alle studentene til slutt.
-        ============================================================================
-        */
+         == OVERSIKT ALLE STUDENTER - Lastes inne i Grensesnitt()
+         ============================================================================
+         == Vi laster inn oversikten over alle studenter ved oppstart av programmet.
+         == Ved innlasting utfører vi flere operasjoner. Vi begynner med en SwingWorker 
+         == doInBackground()-funksjon som henter ut infomasjon fra DB mens vi venter. 
+         == Vi fyller ut antall studenter, strykprosent, og vi lister ut en oversikt over 
+         == alle studentene til slutt.
+         ============================================================================
+         */
         JOptionPane messagePane = new JOptionPane(
-        "Finner database... Vennligst vent.",
-        JOptionPane.INFORMATION_MESSAGE);
+                "Finner database... Vennligst vent.",
+                JOptionPane.INFORMATION_MESSAGE);
         final JDialog dialog = messagePane.createDialog(this, "Søker.");
-         try {
+        try {
             new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
@@ -607,33 +599,35 @@ public class Grensesnitt extends javax.swing.JFrame {
                             fnavn = rs.getString(3);
                             enavn = rs.getString(4);
                             epost = rs.getString(5);
-                            uttekst = uttekst + nr + ", "+passord+", "+fnavn + ", " + enavn + ", " + epost ;
+                            uttekst = uttekst + nr + ", " + passord + ", " + fnavn + ", " + enavn + ", " + epost;
                             // Vi legger informasjonen inn i tabellen
                             Object[] nyRad = {nr, passord, fnavn, enavn, epost};
                             tabell.addRow(nyRad);
                         }
                         rs.close();
-                        if (uttekst.equals("")) {   
+                        if (uttekst.equals("")) {
                             uttekst = "Ingen studenter";
                             lblFeilmelding.setText(uttekst);
-                        } 
-                        
+                        }
+
                         // Henter ut Antall Studenter
                         int antStud = Kontroll.kontroll.getAntallStudenter();
                         String ut = Integer.toString(antStud);
                         lblAntStud.setText(ut);
-                        
+
                         // Hent ut strykprosent
                         int strpro = Kontroll.kontroll.getStrykprosent();
                         String strykprosen = Integer.toString(strpro);
                         lblStrykprosent.setText(strykprosen + "%");
-                        
+
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
                     return null;
                 }
+
                 // Når søket er ferdig kjører denne:
+
                 protected void done() {
                     dialog.dispose();
                 }
@@ -643,13 +637,13 @@ public class Grensesnitt extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
-    
+
     /*
-    == RADIOBUTTON - Fag
-    =====================================================================================
-    == Setter opp riktig inputfelter ved trykk på fag på "Legg til"-siden
-    =====================================================================================
-    */
+     == RADIOBUTTON - Fag
+     =====================================================================================
+     == Setter opp riktig inputfelter ved trykk på fag på "Legg til"-siden
+     =====================================================================================
+     */
     private void rbFagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFagActionPerformed
         lbl4.setText("");
         txt1.setVisible(true);
@@ -661,29 +655,27 @@ public class Grensesnitt extends javax.swing.JFrame {
         lbl2.setText("Fagnavn:");
         lbl3.setText("Studiepoeng:");
         txt3.setEnabled(true);
+        btnReg.setEnabled(true);
     }//GEN-LAST:event_rbFagActionPerformed
 
-    
-    
     /*
-    == RADIOBUTTON - Karakter
-    =====================================================================================
-    == Setter opp riktig inputfelter ved trykk på karakter på "Legg til"-siden
-    =====================================================================================
-    */
+     == RADIOBUTTON - Karakter
+     =====================================================================================
+     == Setter opp riktig inputfelter ved trykk på karakter på "Legg til"-siden
+     =====================================================================================
+     */
     private void rbKarakterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbKarakterActionPerformed
         nullStillNyKarakter();
         klarKarakter();
         fyllInnNyKarakter();
     }//GEN-LAST:event_rbKarakterActionPerformed
 
-    
     /*
-    == RADIOBUTTON - Student
-    =====================================================================================
-    == Setter opp riktig inputfelter ved trykk på student på "Legg til"-siden
-    =====================================================================================
-    */
+     == RADIOBUTTON - Student
+     =====================================================================================
+     == Setter opp riktig inputfelter ved trykk på student på "Legg til"-siden
+     =====================================================================================
+     */
     private void rbStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbStudentActionPerformed
         cbKarakter.setVisible(false);
         txt1.setVisible(true);
@@ -698,65 +690,75 @@ public class Grensesnitt extends javax.swing.JFrame {
         btnReg.setEnabled(true);
     }//GEN-LAST:event_rbStudentActionPerformed
 
-    
-    
     /*
-    == REGISTRER-knappen (btnReg)
-    =====================================================================================
-    == Vi finner først ut hvilken radio-knapp som er huket av, også legger vi inn 
-    == informasjonen i riktig tabell deretter. Det er altså 3 tilnærmet like if-tester.
-    =====================================================================================
-    */
+     == REGISTRER-knappen (btnReg)
+     =====================================================================================
+     == Vi finner først ut hvilken radio-knapp som er huket av, også legger vi inn 
+     == informasjonen i riktig tabell deretter. Det er altså 3 tilnærmet like if-tester.
+     =====================================================================================
+     */
     private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegActionPerformed
         // Legger knappene i en boolean, slik at vi kan finne ut hvilken som er valgt
         boolean student = rbStudent.isSelected();
         boolean fag = rbFag.isSelected();
         boolean karakter = rbKarakter.isSelected();
-        
+
         // Sjekker om student er huket av ved trykk på reg
         if (student) {
-            try {
-                String fornavn = txt1.getText();
-                btnOppmelding.setEnabled(true);
-                String etternavn = txt2.getText();
-                String epost = txt3.getText();
-                String tilbakemelding = Kontroll.kontroll.nyStudent(fornavn, etternavn, epost);
-                txt1.setText("");
-                txt2.setText("");
-                txt3.setText("");
-                JOptionPane.showMessageDialog(null, tilbakemelding);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+            if (txt1.getText().equals("") || txt2.getText().equals("") || txt3.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Du må fylle ut alle feltene.");
+            } else {
+                try {
+                    String fornavn = txt1.getText();
+                    btnOppmelding.setEnabled(true);
+                    String etternavn = txt2.getText();
+                    String epost = txt3.getText();
+                    String tilbakemelding = Kontroll.kontroll.nyStudent(fornavn, etternavn, epost);
+                    txt1.setText("");
+                    txt2.setText("");
+                    txt3.setText("");
+                    txt1.requestFocus();
+                    JOptionPane.showMessageDialog(null, tilbakemelding);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
             }
         }
-        
+
         // Legger inn FAG om rb er huket av
-        if(fag) {
-            try {
-                int fagnr = Integer.parseInt(txt1.getText());
-                String fagnavn = txt2.getText();
-                int studiepoeng = Integer.parseInt(txt3.getText());
-                String tilbakemelding = Kontroll.kontroll.nyttFag(fagnr, fagnavn, studiepoeng);
-                JOptionPane.showMessageDialog(null, tilbakemelding);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+        if (fag) {
+            if (txt1.getText().equals("") || txt2.getText().equals("") || txt3.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Du må fylle ut alle feltene.");
+            } else {
+                try {
+                    int fagnr = Integer.parseInt(txt1.getText());
+                    String fagnavn = txt2.getText();
+                    float studiepoeng = Float.parseFloat(txt3.getText());
+                    String tilbakemelding = Kontroll.kontroll.nyttFag(fagnr, fagnavn, studiepoeng);
+                    txt1.setText("");
+                    txt2.setText("");
+                    txt3.setText("");
+                    txt1.requestFocus();
+                    JOptionPane.showMessageDialog(null, tilbakemelding);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
             }
         }
-        
-        if(karakter) {
+
+        if (karakter) {
             try {
                 int snr, fagkode, aar, bedskjed;
                 String fagnavn, studnr, dato, valgtKarakter, melding;
-                
+
                 // Henter ut studentnr og konverterer til int
                 studnr = cbStudentnr.getSelectedItem().toString().substring(0, 6);
                 snr = Integer.parseInt(studnr);
-                
+
                 // Henter ut fagnavn og henter fagkoden med getFagKode()
                 fagnavn = cbFagnr.getSelectedItem().toString().trim();
                 fagkode = Kontroll.kontroll.getFagKode(fagnavn);
-                
-                
+
                 // Henter ut dato
                 dato = txt3.getText();
                 aar = Integer.parseInt(dato.substring(6, 10));
@@ -790,13 +792,10 @@ public class Grensesnitt extends javax.swing.JFrame {
                     txt3.requestFocus();
                     txt3.selectAll();
                 }
-                
-                
-                
+
             } catch (Exception ex) {
             }
-            
-            
+
         }
     }//GEN-LAST:event_btnRegActionPerformed
 
@@ -811,26 +810,27 @@ public class Grensesnitt extends javax.swing.JFrame {
         cbKarakter.setVisible(true);
         cbFagnr.setVisible(true);
         cbStudentnr.setVisible(true);
-        
+        txt3.setText("");
+
         // disable av utfyllinger
         cbFagnr.setEnabled(false);
         txt3.setEnabled(false);
         cbKarakter.setEnabled(false);
     }
-    
+
     public void fyllInnNyKarakter() {
         try {
-                ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
-                String space = " - ";
-                while (rs.next()) {
-                    cbStudentnr.addItem(rs.getString(1) + " - " + rs.getString(3) + " " + rs.getString(4));
-                }
-                rs.close();
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
+            ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
+            String space = " - ";
+            while (rs.next()) {
+                cbStudentnr.addItem(rs.getString(1) + " - " + rs.getString(3) + " " + rs.getString(4));
             }
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
-    
+
     private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_jTabbedPane1FocusGained
@@ -842,88 +842,28 @@ public class Grensesnitt extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanelOverviewMouseClicked
 
-    
-    
     /*
-    == OVERSIKT-siden
-    ========================================================================================
-    == Oversikt er en statisk side som ikke utfører handling, men kun viser frem 
-    == informasjon. Derfor har vi lagt alt som skjer her ved instansiering av grensesnitt()
-    ========================================================================================
-    */
+     == OVERSIKT-siden
+     ========================================================================================
+     == Oversikt er en statisk side som ikke utfører handling, men kun viser frem 
+     == informasjon. Derfor har vi lagt alt som skjer her ved instansiering av grensesnitt()
+     ========================================================================================
+     */
     private void jPanelOverviewComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelOverviewComponentShown
         // Se grensesnitt() for kode
     }//GEN-LAST:event_jPanelOverviewComponentShown
-    
-    
+
     /*
-    == Innlasting av SØK-siden
-    ==
-    == Ved innlasting av søke-siden fyller vi inn comboboxen med studennr
-    =======================================================================
-    */
+     == Innlasting av SØK-siden
+     ==
+     == Ved innlasting av søke-siden fyller vi inn comboboxen med studennr
+     =======================================================================
+     */
     private void jPanelSearchComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelSearchComponentShown
         // Setter etternavn som satt
         rbEnavn.setSelected(true);
         txtSearch.requestFocus();
-        
-        // Henter ut alle studenter:
-        try {
-            ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
-            while (rs.next()) {
-                cbStudentListe.addItem(rs.getString(1));
-            }
-            rs.close();
-            // Her kan vi evt fjerne teksten i dropdownboksen
-            //cbStudentListe.removeItemAt(0);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
     }//GEN-LAST:event_jPanelSearchComponentShown
-
-    
-   
-    /*
-    == SØK-siden, KLIKK på Studentlisten (komboboks)
-    =======================================================================================
-    == Ved klikk på denne komboboksen ønsker vi å printe ut informasjon om denne studenten
-    =======================================================================================
-    */
-    private void cbStudentListeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStudentListeActionPerformed
-        try {
-            String valgtStud, fagliste, snitt, ut;
-            int studnr;
-            fagliste = "";
-
-            // Finn valgt STUDENT
-            valgtStud = cbStudentListe.getSelectedItem().toString();
-            studnr = Integer.parseInt(valgtStud);
-            JOptionPane.showMessageDialog(null, valgtStud);
-
-            // SNITTKARAKTER til student
-            snitt = Kontroll.kontroll.getKaraktersnitt(studnr);
-
-            // Finn FAG til student
-            ResultSet rs = Kontroll.kontroll.getAlleFagTilStudent(studnr);
-            while (rs.next()) {
-                fagliste = rs.getString(2) + "\n";
-            }
-            rs.close();
-
-            // Henter ut NAVN til studenten
-            String navn;
-            navn = Kontroll.kontroll.getNavn(studnr);
-
-            // Nå har vi all info, og kan legge det ut på GUI
-            ut = "<html>"+navn +"<br>"+"Karaktersnitt: "+snitt+"<br>"+"Oppmeldte fag:"+"<br>"+fagliste+"</html>";
-            lblStudentInfo.setText(ut);
-
-        } catch (SQLException ex) {
-            System.out.println("Klarte ikke å hente ut karaktersnittet.");
-            Logger.getLogger(Grensesnitt.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_cbStudentListeActionPerformed
 
     public void klarKarakter() {
         txt3.setText("");
@@ -933,11 +873,12 @@ public class Grensesnitt extends javax.swing.JFrame {
         btnReg.setEnabled(false);
     }
     /*
-    == INNLASTNING av "Legg til"-siden
-    =======================================================================================
-    == Vi fyller her komboboksen med alle studenter
-    =======================================================================================
-    */
+     == INNLASTNING av "Legg til"-siden
+     =======================================================================================
+     == Vi fyller her komboboksen med alle studenter
+     =======================================================================================
+     */
+
     @SuppressWarnings("unchecked")
     private void jPanelAddComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelAddComponentShown
         btnReg.setEnabled(true);
@@ -948,9 +889,7 @@ public class Grensesnitt extends javax.swing.JFrame {
             fyllInnNyKarakter();
         }
     }//GEN-LAST:event_jPanelAddComponentShown
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     private void cbStudentnrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStudentnrActionPerformed
         // TODO add your handling code here:
@@ -965,13 +904,13 @@ public class Grensesnitt extends javax.swing.JFrame {
             cbFagnr.addItem("Velg fag");
             ResultSet rs = Kontroll.kontroll.getAlleFagTilStudent(snr);
             while (rs.next()) {
-                cbFagnr.addItem(rs.getString(2)+"\n");
+                cbFagnr.addItem(rs.getString(2) + "\n");
                 ant += 1;
             }
             rs.close();
-            if (cbFagnr.getItemCount() < 2) { 
+            if (cbFagnr.getItemCount() < 2) {
                 cbFagnr.removeAllItems();
-                cbFagnr.addItem("Studenten har ingen fag"); 
+                cbFagnr.addItem("Studenten har ingen fag");
             } else {
                 antS = Integer.toString(ant);
                 String tekst = "Studenten har " + antS + " aktive fag:";
@@ -981,17 +920,17 @@ public class Grensesnitt extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
-        
+
     }//GEN-LAST:event_cbStudentnrActionPerformed
 
     private void txt3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt3KeyTyped
-        if(cbFagnr.getSelectedIndex() != 0 && txt3.getText().length() == 9 && rbKarakter.isSelected()) {
+        if (cbFagnr.getSelectedIndex() != 0 && txt3.getText().length() == 9 && rbKarakter.isSelected()) {
             // Om vi har valgt et fag, lengden er 10 i dato OG karakter er det som skal legges inn, så:
             cbKarakter.setEnabled(true);
         } else {
             cbKarakter.setEnabled(false);
         }
-        
+
     }//GEN-LAST:event_txt3KeyTyped
 
     private void cbFagnrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbFagnrMouseClicked
@@ -1004,18 +943,18 @@ public class Grensesnitt extends javax.swing.JFrame {
         btnReg.setEnabled(true);
     }//GEN-LAST:event_cbKarakterActionPerformed
 
-    
     /*
-    == INNLASTNING av "OPPMELDING"
-    =======================================================================================
-    == Viser kun frem studenter
-    =======================================================================================
-    */
+     == INNLASTNING av "OPPMELDING"
+     =======================================================================================
+     == Viser kun frem studenter
+     =======================================================================================
+     */
     private void jPanelOppmeldingComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelOppmeldingComponentShown
-       nullstill();
-       
-       // Lister ut alle studenter i Combobox
-       try {
+        nullstill();
+        cbOppVelgStud.removeAllItems();
+
+        // Lister ut alle studenter i Combobox
+        try {
             ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
             while (rs.next()) {
                 cbOppVelgStud.addItem(rs.getString(1) + " - " + rs.getString(3) + " " + rs.getString(4));
@@ -1033,13 +972,13 @@ public class Grensesnitt extends javax.swing.JFrame {
         int snr;
         // Henter ut valgt student
         if (cbOppVelgStud.getSelectedIndex() > 0) {
-        studnr = cbOppVelgStud.getSelectedItem().toString().substring(0, 6);
-        snr = Integer.parseInt(studnr);
+            studnr = cbOppVelgStud.getSelectedItem().toString().substring(0, 6);
+            snr = Integer.parseInt(studnr);
 
-        // Vis Combobox med alle fag
-        cbOppVelgFag.setVisible(true);
-        lblVelgFag.setVisible(true);
-        
+            // Vis Combobox med alle fag
+            cbOppVelgFag.setVisible(true);
+            lblVelgFag.setVisible(true);
+
             try {
                 ResultSet rs = Kontroll.kontroll.getAlleFag(snr);
                 while (rs.next()) {
@@ -1055,10 +994,10 @@ public class Grensesnitt extends javax.swing.JFrame {
     private void cbOppVelgFagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOppVelgFagActionPerformed
         // Viser knappen
         btnOppmelding.setVisible(true);
-        
+
         String studnr, karakter, fag, fagnr;
         int snr, fagkode;
-        
+
         try {
             studnr = cbOppVelgStud.getSelectedItem().toString().substring(0, 6);
             snr = Integer.parseInt(studnr);
@@ -1066,14 +1005,14 @@ public class Grensesnitt extends javax.swing.JFrame {
             fagnr = fag.substring(0, fag.indexOf(" "));
             fagkode = Integer.parseInt(fagnr);
             karakter = Kontroll.kontroll.sjekkKarakter(snr, fagkode);
-            if(karakter != null) {
+            if (karakter != null) {
                 lblOppHarKarakter.setVisible(true);
                 lblOppHarKarakter.setText("Studenten har følgende karakter i dette faget: " + karakter);
             } else {
                 lblOppHarKarakter.setVisible(true);
                 lblOppHarKarakter.setText("Ingen karakter.");
             }
-            
+
         } catch (Exception e) {
         }
     }//GEN-LAST:event_cbOppVelgFagActionPerformed
@@ -1081,7 +1020,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     private void btnOppmeldingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOppmeldingActionPerformed
         String studnr, karakter, fag, fagnr, melding, dato, studenten;
         int snr, fagkode, varsling;
-        
+
         // Sjekk om student har karakter
         try {
             studenten = cbOppVelgStud.getSelectedItem().toString();
@@ -1091,9 +1030,9 @@ public class Grensesnitt extends javax.swing.JFrame {
             fagnr = fag.substring(0, fag.indexOf(" "));
             fagkode = Integer.parseInt(fagnr.trim());
             karakter = Kontroll.kontroll.sjekkKarakter(snr, fagkode);
-            if(karakter != null) {
+            if (karakter != null) {
                 // Om studenten har en karakter fra før varsler vi om det før insert
-                melding = "Studenten er allerede oppført med en karakteren \"" + karakter + "\" i faget \"" + fag + "\"."+"\n"
+                melding = "Studenten er allerede oppført med en karakteren \"" + karakter + "\" i faget \"" + fag + "\"." + "\n"
                         + "Ved ny oppmelding mister studenten den nåværende karakteren!"
                         + "\n" + "\n"
                         + "Ny oppmelding:" + "\n"
@@ -1105,14 +1044,14 @@ public class Grensesnitt extends javax.swing.JFrame {
                 Object[] options = {"Ja", "Nei"};
                 varsling = JOptionPane.showOptionDialog(null, melding, "Oppmelding av student", YES_NO_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
-  
+
                 // Om du svarer ja, insert. Om nei, ingenting
-                if(varsling == JOptionPane.YES_OPTION) {
+                if (varsling == JOptionPane.YES_OPTION) {
                     String svar = Kontroll.kontroll.oppdaterKarakter(fagkode, snr);
                     JOptionPane.showMessageDialog(null, svar);
                     nullstill();
                 }
-                
+
             } else { // Om det ikke finnes noen karakter fra før, blir man meldt opp her
                 // Bedskjed om hva som meldes opp
                 melding = "Ny oppmelding:" + "\n"
@@ -1120,75 +1059,112 @@ public class Grensesnitt extends javax.swing.JFrame {
                         + "Student: " + studenten + "\n"
                         + "\n"
                         + "Vil du melde opp denne studenten?";
-                
+
                 Object[] options = {"Ja", "Nei"};
                 varsling = JOptionPane.showOptionDialog(null, melding, "Oppmelding av student", YES_NO_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
-                
+
                 // Om du bekrefter
-                if(varsling == JOptionPane.YES_OPTION) {
+                if (varsling == JOptionPane.YES_OPTION) {
                     String svar = Kontroll.kontroll.nyOppmelding(fagkode, snr);
                     JOptionPane.showMessageDialog(null, svar);
                     nullstill();
                 }
             }
-            
+
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnOppmeldingActionPerformed
 
-    
     /*
-    == SØKING
-    == Vi utfører en søk hver gang et tastetrykk er utført
-    ============================================================
-    */
+     == SØKING
+     == Vi utfører en søk hver gang et tastetrykk er utført
+     ============================================================
+     */
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        // TODO add your handling code here:
-        // Søk etter student
-        String input, nr, fnavn, enavn, epost, passord;
-        String fagliste = "";
-        String svar = "<html><h3>Resultat:</h3>" + "<br>";
-        input = txtSearch.getText();
+        String input = txtSearch.getText();
+        String output;
 
-        if (rbEnavn.isSelected() && input.length() >= 3) { // Søker på etternavn
-            try {
-                ResultSet rs = Kontroll.kontroll.searchEtternavn(input);
-                while (rs.next()) {
-                    nr = rs.getString(1);
-                    passord = rs.getString(2);
-                    fnavn = rs.getString(3);
-                    enavn = rs.getString(4);
-                    epost = rs.getString(5);
-                    svar += "<h4>Navn: " + fnavn + " " + enavn + "</h4>" 
-                            + "<b>Studentnr:</b> " + nr + "<br>" 
-                            + "<b>Epost:</b> " + epost + "<br><"
-                            + "<b>Passord:</b> " + passord + "<br>"
-                            + "<b>Fag:</b><br>";
-                    
-                    // Finner alle fag til hver enkelt student
-                    int studnr = Integer.parseInt(nr);
-                    ResultSet res = Kontroll.kontroll.getAlleFullforte(studnr);
-                    while (res.next()) {
-                        fagliste += res.getString(2);
-                        String fag = res.getString(2);
-                        int fagkode = Kontroll.kontroll.getFagKode(fag);
-                        String karakter = Kontroll.kontroll.getKarakterFag(studnr, fagkode);
-                        fagliste+= " med karakteren: " + karakter + "<br>";
-                    }
-                    res.close();
-                    svar+=fagliste+"<br>";
-                }
-                lblStudentInfo.setText(svar + "</htm>");
-                rs.close();
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else if(rbEnavn.isSelected() && input.length() <= 3) {
+        // Sjekker om etternavn er valgt
+        if (rbEnavn.isSelected() && input.length() >= 3) {
+            // Søker på etternavn
+            output = "etternavn";
+            searchStudent(output);
+        } else if (rbEnavn.isSelected() && input.length() <= 3) {
+            // Ved få søkebokstaver nullstiller vi resultatet
+            lblStudentInfo.setText("");
+        }
+
+        // Sjekker om epost er valgt
+        if (rbEpost.isSelected() && input.length() >= 3) {
+            // Søker på etternavn
+            output = "epost";
+            searchStudent(output);
+        } else if (rbEpost.isSelected() && input.length() <= 3) {
             // Ved få søkebokstaver nullstiller vi resultatet
             lblStudentInfo.setText("");
         }
     }//GEN-LAST:event_txtSearchKeyReleased
+
+    public void searchStudent(String metode) {
+        ResultSet rs = null;
+        try {
+            // Søk etter student
+            String input, nr, fnavn, enavn, epost, passord;
+            String fagliste = "";
+            String aktivefag = "";
+            String svar = "<html><h3>Resultat:</h3>" + "<br>";
+            input = txtSearch.getText();
+            if (metode.equals("etternavn")) {
+                rs = Kontroll.kontroll.searchEtternavn(input);
+            } else if (metode.equals("epost")) {
+                rs = Kontroll.kontroll.searchEpost(input);
+            }
+            while (rs.next()) {
+                nr = rs.getString(1);
+                passord = rs.getString(2);
+                fnavn = rs.getString(3);
+                enavn = rs.getString(4);
+                epost = rs.getString(5);
+                svar += "<h4>Navn: " + fnavn + " " + enavn + "</h4>"
+                        + "<b>Studentnr:</b> " + nr + "<br>"
+                        + "<b>Epost:</b> " + epost + "<br><"
+                        + "<b>Passord:</b> " + passord + "<br>"
+                        + "<b>Fullførte fag:</b><br>";
+
+                // Finner alle fag til hver enkelt student
+                int studnr = Integer.parseInt(nr);
+                ResultSet res = Kontroll.kontroll.getAlleFullforte(studnr);
+                //if(!res.first()){svar+=" ingen fag.";}
+                while (res.next()) {
+                    fagliste += res.getString(2);
+                    String fag = res.getString(2);
+                    int fagkode = Kontroll.kontroll.getFagKode(fag);
+                    String karakter = Kontroll.kontroll.getKarakterFag(studnr, fagkode);
+                    fagliste += " - karakter: " + karakter + "<br>";
+                }
+                res.close();
+                svar += fagliste;
+                svar += "<b>Aktive fag:</b><br>";
+
+                // Henter alle fag studenten er oppmeld i
+                ResultSet resultat = Kontroll.kontroll.getAlleFagTilStudent(studnr);
+                while (resultat.next()) {
+                    aktivefag += resultat.getString(2) + "<br>";
+                }
+                res.close();
+                svar += aktivefag;
+                
+                // Finner studentens totale karaktersnitt
+                String snitt = Kontroll.kontroll.getKaraktersnitt(studnr);
+                svar += "<b>Karaktersnitt: </b>"+snitt;
+            }
+            lblStudentInfo.setText(svar + "</htm>");
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
     private void rbTotaltActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTotaltActionPerformed
         DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
@@ -1197,14 +1173,21 @@ public class Grensesnitt extends javax.swing.JFrame {
     }//GEN-LAST:event_rbTotaltActionPerformed
 
     private void rbEmneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEmneActionPerformed
+
         DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
         tabell.setRowCount(0);
         cbEmne.setVisible(true);
         lblGjennomsnittKarakter.setVisible(true);
         jLabel8.setVisible(true);
         jLabel3.setText("Strykprosent:");
+        lblAntStud.setText("");
+        lblStrykprosent.setText("");
+        lblGjennomsnittKarakter.setText("");
+    }//GEN-LAST:event_rbEmneActionPerformed
+
+    public void fyllEmneBoks() {
         try {
-             // Henter ut alle fag
+            // Henter ut alle fag
             String fagliste;
             ResultSet rs = Kontroll.kontroll.getAlleFag();
             while (rs.next()) {
@@ -1215,18 +1198,19 @@ public class Grensesnitt extends javax.swing.JFrame {
             rs.close();
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_rbEmneActionPerformed
+    }
 
     private void cbEmneMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbEmneMouseReleased
-        
-        
+
+
     }//GEN-LAST:event_cbEmneMouseReleased
 
     private void cbEmneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEmneActionPerformed
         DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
         tabell.setRowCount(0);
-        String fag, fagnr,nr, fnavn,enavn, epost, ant, stryk, snitt;
-        String uttekst = "";
+
+        String fag, fagnr, nr, fnavn, passord, enavn, epost, ant, stryk, snitt;
+        
         int fagkode;
         int teller = 0;
         fag = cbEmne.getSelectedItem().toString();
@@ -1238,13 +1222,14 @@ public class Grensesnitt extends javax.swing.JFrame {
             ResultSet rs = Kontroll.kontroll.getKursDeltakere(fagkode);
             while (rs.next()) {
                 nr = rs.getString(1);
-                fnavn = rs.getString(2);
-                enavn = rs.getString(3);
-                epost = rs.getString(4);
-                teller+=1;
-                uttekst = uttekst + nr + ", " + ", " + fnavn + ", " + enavn + ", " + epost;
+                passord = rs.getString(2);
+                fnavn = rs.getString(3);
+                enavn = rs.getString(4);
+                epost = rs.getString(5);
+                teller += 1;
+                
                 // Vi legger informasjonen inn i tabellen
-                Object[] nyRad = {nr, fnavn, enavn, epost};
+                Object[] nyRad = {nr, passord, fnavn, enavn, epost};
                 tabell.addRow(nyRad);
             }
             rs.close();
@@ -1260,6 +1245,11 @@ public class Grensesnitt extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbEmneActionPerformed
 
+    private void rbEpostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEpostActionPerformed
+        // TODO add your handling code here:
+        txtSearch.requestFocus();
+    }//GEN-LAST:event_rbEpostActionPerformed
+
     // Nullstiller OPPMELDING
     public void nullstill() {
         cbOppVelgFag.removeAllItems();
@@ -1268,6 +1258,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         btnOppmelding.setVisible(false);
         lblOppHarKarakter.setVisible(false);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -1294,7 +1285,7 @@ public class Grensesnitt extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Grensesnitt.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
- 
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -1312,7 +1303,6 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JComboBox cbKarakter;
     private javax.swing.JComboBox cbOppVelgFag;
     private javax.swing.JComboBox cbOppVelgStud;
-    private javax.swing.JComboBox cbStudentListe;
     private javax.swing.JComboBox cbStudentnr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
