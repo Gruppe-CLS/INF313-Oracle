@@ -262,7 +262,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -557,7 +557,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                     .addComponent(lblOppHarKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOppmelding)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addContainerGap(326, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Oppmelding", jPanelOppmelding);
@@ -570,7 +570,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
         );
 
         pack();
@@ -865,13 +865,10 @@ public class Grensesnitt extends javax.swing.JFrame {
                     int studnr = Integer.parseInt(nr);
                     ResultSet res = Kontroll.kontroll.getAlleFullforte(studnr);
                     while (res.next()) {
-                        fagliste = res.getString(2);
+                        fagliste += res.getString(2);
                         String fag = res.getString(2);
-                        JOptionPane.showMessageDialog(null, "Vi får følgende fagnavn: "+fag);
                         int fagkode = Kontroll.kontroll.getFagKode(fag);
-                        JOptionPane.showMessageDialog(null, "Vi får følgende fakode: "+fagkode);
                         String karakter = Kontroll.kontroll.getKarakterFag(studnr, fagkode);
-                        JOptionPane.showMessageDialog(null, "Karkater "+karakter);
                         fagliste+= " med karakteren: " + karakter + "<br>";
                     }
                     res.close();
