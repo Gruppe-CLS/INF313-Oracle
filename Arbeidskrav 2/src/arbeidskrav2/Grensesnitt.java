@@ -194,8 +194,6 @@ public class Grensesnitt extends javax.swing.JFrame {
 
         jLabel8.setText("Gjennomsnitt karakter:");
 
-        lblGjennomsnittKarakter.setText("jLabel9");
-
         javax.swing.GroupLayout jPanelOverviewLayout = new javax.swing.GroupLayout(jPanelOverview);
         jPanelOverview.setLayout(jPanelOverviewLayout);
         jPanelOverviewLayout.setHorizontalGroup(
@@ -221,7 +219,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                             .addGroup(jPanelOverviewLayout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblGjennomsnittKarakter)))
+                                .addComponent(lblGjennomsnittKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblFeilmelding, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(122, 122, 122))
@@ -251,9 +249,9 @@ public class Grensesnitt extends javax.swing.JFrame {
                             .addComponent(lblStrykprosent, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(lblGjennomsnittKarakter)))
+                        .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblGjennomsnittKarakter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(lblFeilmelding, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
@@ -599,6 +597,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                     jLabel8.setVisible(false);
                     lblGjennomsnittKarakter.setVisible(false);
                     jLabel3.setText("Total strykprosent");
+                    jLabel4.setText("Liste over alle studenter.");
                     try {
                         ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
                         DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
@@ -795,6 +794,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegActionPerformed
 
     public void nullStillNyKarakter() {
+        btnOppmelding.setEnabled(false);
         lbl1.setText("Studentnr:");
         lbl2.setText("Fag:");
         lbl3.setText("Dato: (dd.mm.åååå)");
@@ -1216,6 +1216,7 @@ public class Grensesnitt extends javax.swing.JFrame {
         String fag, fagnr,nr, fnavn,enavn, epost, ant, stryk, snitt;
         String uttekst = "";
         int fagkode;
+        int teller = 0;
         fag = cbEmne.getSelectedItem().toString();
         fagnr = fag.substring(0, fag.indexOf(" "));
         fagkode = Integer.parseInt(fagnr.trim());
@@ -1228,6 +1229,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                 fnavn = rs.getString(2);
                 enavn = rs.getString(3);
                 epost = rs.getString(4);
+                teller+=1;
                 uttekst = uttekst + nr + ", " + ", " + fnavn + ", " + enavn + ", " + epost;
                 // Vi legger informasjonen inn i tabellen
                 Object[] nyRad = {nr, fnavn, enavn, epost};
@@ -1236,10 +1238,11 @@ public class Grensesnitt extends javax.swing.JFrame {
             rs.close();
             ant = Kontroll.kontroll.getKursAntall(fagkode);
             stryk = Kontroll.kontroll.getKursStryk(fagkode);
-            snitt = Kontroll.kontroll.getKursAntall(fagkode);
+            snitt = Kontroll.kontroll.getKursSnitt(fagkode);
             lblAntStud.setText(ant);
             lblStrykprosent.setText(stryk);
             lblGjennomsnittKarakter.setText(snitt);
+            jLabel4.setText("Liste over alle aktive studenter (" + teller + "):");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

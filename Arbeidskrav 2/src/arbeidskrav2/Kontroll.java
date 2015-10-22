@@ -218,7 +218,11 @@ public class Kontroll {
             callableStatement.setInt(2, fagkode);
             callableStatement.execute();
             String snitt = callableStatement.getString(1);
+            if(snitt.equals("-1")) {
+                return "Ingen har fullført faget.";
+            } else {
             return snitt;
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return "Ingen resultater";

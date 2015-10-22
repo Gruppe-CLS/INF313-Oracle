@@ -82,7 +82,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lblGjennomsnittKarakter" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblGjennomsnittKarakter" min="-2" pref="287" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -122,9 +122,9 @@
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblGjennomsnittKarakter" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabel8" max="32767" attributes="0"/>
+                                  <Component id="lblGjennomsnittKarakter" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="lblFeilmelding" min="-2" pref="41" max="-2" attributes="0"/>
@@ -268,9 +268,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblGjennomsnittKarakter">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jLabel9"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
