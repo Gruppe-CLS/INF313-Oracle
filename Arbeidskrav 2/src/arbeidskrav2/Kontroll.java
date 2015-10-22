@@ -190,6 +190,7 @@ public class Kontroll {
         }
     }
     
+    // Henter alle KURS studenten er oppmeld i, og IKKE har fått karakter i
     public ResultSet getAlleFagTilStudent(int nr) throws SQLException {
         try {
             String query = "{ call ? := GETKURSSTUDENT(?) }";
@@ -235,6 +236,22 @@ public class Kontroll {
         }
     }
     
+    public String getKarakterFag(int studnr, int fagkode) {
+        try {
+            String query = "{ call ? := GETKARAKTERKURS(?, ?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.VARCHAR);
+            callableStatement.setInt(2, studnr);
+            callableStatement.setInt(3, fagkode);
+            callableStatement.execute();
+            String karakter = callableStatement.getString(1);
+            return karakter;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+    
     
     
     /*
@@ -251,7 +268,8 @@ public class Kontroll {
     ==================================================================================
     */
     
-    // getAlleFag henter IKKE ut fag som studenten allerede er oppmeld i
+    // getAlleFag henter ALLE fag som studenten IKKE er oppmeldt i
+    // Altså ikke fag studenten står oppført på uten karkater
     public ResultSet getAlleFag(int studentnr) throws SQLException {
         try {
             String query = "{ ? = call GETALLEKURS( ? ) }";

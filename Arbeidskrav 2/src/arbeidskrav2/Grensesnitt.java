@@ -779,7 +779,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     private void jPanelSearchComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelSearchComponentShown
         // Setter etternavn som satt
         rbEnavn.setSelected(true);
-        rbEnavn.requestFocus();
+        txtSearch.requestFocus();
         
         // Henter ut alle studenter:
         try {
@@ -859,15 +859,19 @@ public class Grensesnitt extends javax.swing.JFrame {
                             + "<b>Studentnr:</b> " + nr + "<br>" 
                             + "<b>Epost:</b> " + epost + "<br><"
                             + "<b>Passord:</b> " + passord + "<br>"
-                            + "<b>Fag:</b> ";
+                            + "<b>Fag:</b><br>";
                     
                     // Finner alle fag til hver enkelt student
                     int studnr = Integer.parseInt(nr);
                     ResultSet res = Kontroll.kontroll.getAlleFagTilStudent(studnr);
                     while (res.next()) {
                         fagliste = res.getString(2);
-                        int fagkode = Kontroll.kontroll.getFagKode(res.getString(2));
-                        String karakter = Kontroll.kontroll.sjekkKarakter(studnr, fagkode);
+                        String fag = res.getString(2);
+                        JOptionPane.showMessageDialog(null, "Vi får følgende fagnavn: "+fag);
+                        int fagkode = Kontroll.kontroll.getFagKode(fag);
+                        JOptionPane.showMessageDialog(null, "Vi får følgende fakode: "+fagkode);
+                        String karakter = Kontroll.kontroll.getKarakterFag(studnr, fagkode);
+                        JOptionPane.showMessageDialog(null, "Karkater "+karakter);
                         fagliste+= " med karakteren: " + karakter + "<br>";
                     }
                     res.close();
