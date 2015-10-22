@@ -430,8 +430,8 @@ public class Grensesnitt extends javax.swing.JFrame {
         lblStudentInfo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSearchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
             }
         });
 
@@ -839,52 +839,6 @@ public class Grensesnitt extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cbStudentListeActionPerformed
 
-    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        // Søk etter student
-        String input, nr, fnavn, enavn, epost, passord;
-        String fagliste = "";
-        String svar = "<html><h3>Resultat:</h3>" + "<br>";
-        input = txtSearch.getText();
-
-        if (rbEnavn.isSelected() && input.length() >= 3) { // Søker på etternavn
-            try {
-                ResultSet rs = Kontroll.kontroll.searchEtternavn(input);
-                while (rs.next()) {
-                    nr = rs.getString(1);
-                    passord = rs.getString(2);
-                    fnavn = rs.getString(3);
-                    enavn = rs.getString(4);
-                    epost = rs.getString(5);
-                    svar += "<h4>Navn: " + fnavn + " " + enavn + "</h4>" 
-                            + "<b>Studentnr:</b> " + nr + "<br>" 
-                            + "<b>Epost:</b> " + epost + "<br><"
-                            + "<b>Passord:</b> " + passord + "<br>"
-                            + "<b>Fag:</b><br>";
-                    
-                    // Finner alle fag til hver enkelt student
-                    int studnr = Integer.parseInt(nr);
-                    ResultSet res = Kontroll.kontroll.getAlleFullforte(studnr);
-                    while (res.next()) {
-                        fagliste += res.getString(2);
-                        String fag = res.getString(2);
-                        int fagkode = Kontroll.kontroll.getFagKode(fag);
-                        String karakter = Kontroll.kontroll.getKarakterFag(studnr, fagkode);
-                        fagliste+= " med karakteren: " + karakter + "<br>";
-                    }
-                    res.close();
-                    svar+=fagliste+"<br>";
-                }
-                lblStudentInfo.setText(svar + "</htm>");
-                rs.close();
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else if(rbEnavn.isSelected() && input.length() <= 3) {
-            // Ved få søkebokstaver nullstiller vi resultatet
-            lblStudentInfo.setText("");
-        }
-    }//GEN-LAST:event_txtSearchKeyTyped
-
     public void klarKarakter() {
         txt3.setText("");
         cbFagnr.setEnabled(false);
@@ -1103,6 +1057,59 @@ public class Grensesnitt extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnOppmeldingActionPerformed
+
+    
+    /*
+    == SØKING
+    == Vi utfører en søk hver gang et tastetrykk er utført
+    ============================================================
+    */
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        // Søk etter student
+        String input, nr, fnavn, enavn, epost, passord;
+        String fagliste = "";
+        String svar = "<html><h3>Resultat:</h3>" + "<br>";
+        input = txtSearch.getText();
+
+        if (rbEnavn.isSelected() && input.length() >= 3) { // Søker på etternavn
+            try {
+                ResultSet rs = Kontroll.kontroll.searchEtternavn(input);
+                while (rs.next()) {
+                    nr = rs.getString(1);
+                    passord = rs.getString(2);
+                    fnavn = rs.getString(3);
+                    enavn = rs.getString(4);
+                    epost = rs.getString(5);
+                    svar += "<h4>Navn: " + fnavn + " " + enavn + "</h4>" 
+                            + "<b>Studentnr:</b> " + nr + "<br>" 
+                            + "<b>Epost:</b> " + epost + "<br><"
+                            + "<b>Passord:</b> " + passord + "<br>"
+                            + "<b>Fag:</b><br>";
+                    
+                    // Finner alle fag til hver enkelt student
+                    int studnr = Integer.parseInt(nr);
+                    ResultSet res = Kontroll.kontroll.getAlleFullforte(studnr);
+                    while (res.next()) {
+                        fagliste += res.getString(2);
+                        String fag = res.getString(2);
+                        int fagkode = Kontroll.kontroll.getFagKode(fag);
+                        String karakter = Kontroll.kontroll.getKarakterFag(studnr, fagkode);
+                        fagliste+= " med karakteren: " + karakter + "<br>";
+                    }
+                    res.close();
+                    svar+=fagliste+"<br>";
+                }
+                lblStudentInfo.setText(svar + "</htm>");
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else if(rbEnavn.isSelected() && input.length() <= 3) {
+            // Ved få søkebokstaver nullstiller vi resultatet
+            lblStudentInfo.setText("");
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     public void nullstill() {
         cbOppVelgFag.removeAllItems();
