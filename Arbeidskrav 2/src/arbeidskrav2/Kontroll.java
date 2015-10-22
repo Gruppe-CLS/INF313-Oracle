@@ -169,6 +169,100 @@ public class Kontroll {
         }
     }
     
+    /*
+    == Oversiktsiden - EMNE
+    ========================================================================
+    == Henter ut alle fag
+    == Henter ut informasjon om fag basert på fagkoden fra forrige funksjon
+    ========================================================================
+    */
+    public ResultSet getAlleFag() {
+        try {
+            String query = "{ call ? := GETKURS() }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.CURSOR);
+            callableStatement.execute();
+            ResultSet rs = (ResultSet)callableStatement.getObject(1);
+            return rs;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+    
+    /*
+    == getKursInfo()
+    == 
+    ===================
+    */
+    public ResultSet getKursDeltakere(int fagkode) {
+        try {
+            String query = "{ call ? := GETKURSDELTAKERE(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,OracleTypes.CURSOR);
+            callableStatement.setInt(2, fagkode);
+            callableStatement.execute();
+            ResultSet rs = (ResultSet)callableStatement.getObject(1);
+            return  rs;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+    
+    public String getKursSnitt(int fagkode) {
+        try {
+            String query = "{ ? = call GETKURSSNITT(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,Types.VARCHAR);
+            callableStatement.setInt(2, fagkode);
+            callableStatement.execute();
+            String snitt = callableStatement.getString(1);
+            return snitt;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return "Ingen resultater";
+        }
+    }
+    public String getKursStryk(int fagkode) {
+        try {
+            String query = "{ ? = call GETKURSSTRYKPROSENT(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,Types.VARCHAR);
+            callableStatement.setInt(2, fagkode);
+            callableStatement.execute();
+            String strykprosent = callableStatement.getString(1);
+            if(Integer.parseInt(strykprosent) < 0) {
+                return "Ingen har fullført faget.";
+            } else if(Integer.parseInt(strykprosent) == 0) {
+                return "Ingen har strøket dette faget! :)";
+            } else {
+                return strykprosent + "%";
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+    public String getKursAntall(int fagkode) {
+        try {
+            String query = "{ ? = call GETKURSANTALL(?) }";
+            callableStatement = conn.prepareCall(query);
+            callableStatement.registerOutParameter(1,Types.VARCHAR);
+            callableStatement.setInt(2, fagkode);
+            callableStatement.execute();
+            String strykprosent = callableStatement.getString(1);
+            return strykprosent;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return "Ingen har fullført dette faget.";
+        }
+    }
+    
+    // returnerer alle studenter ved kurset
+    public ResultSet getOversikt(ResultSet input) {
+        return input;
+    }
     
     /*
     == Funksjonene til SØK-siden i programmet. Info om en enkelt student

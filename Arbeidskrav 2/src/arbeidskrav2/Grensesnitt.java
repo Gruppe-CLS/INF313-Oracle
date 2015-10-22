@@ -54,72 +54,14 @@ public class Grensesnitt extends javax.swing.JFrame {
         ButtonGroup searchGruppe = new ButtonGroup();
         searchGruppe.add(rbEnavn);
         searchGruppe.add(rbEpost);
-       
-        /*
-        == OVERSIKT ALLE STUDENTER - Lastes inne i Grensesnitt()
-        ============================================================================
-        == Vi laster inn oversikten over alle studenter ved oppstart av programmet.
-        == Ved innlasting utfører vi flere operasjoner. Vi begynner med en SwingWorker 
-        == doInBackground()-funksjon som henter ut infomasjon fra DB mens vi venter. 
-        == Vi fyller ut antall studenter, strykprosent, og vi lister ut en oversikt over 
-        == alle studentene til slutt.
-        ============================================================================
-        */
-        JOptionPane messagePane = new JOptionPane(
-        "Finner database... Vennligst vent.",
-        JOptionPane.INFORMATION_MESSAGE);
-        final JDialog dialog = messagePane.createDialog(this, "Søker.");
-         try {
-            new SwingWorker<Void, Void>() {
-                @Override
-                protected Void doInBackground() throws Exception {
-                    // Henter ut alle studenter:
-                    String uttekst = ""; // Ved tom liste viser vi denne
-                    String nr, passord, fnavn, enavn, epost;
-                    try {
-                        ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
-                        DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
-                        while (rs.next()) {
-                            nr = rs.getString(1);
-                            passord = rs.getString(2);
-                            fnavn = rs.getString(3);
-                            enavn = rs.getString(4);
-                            epost = rs.getString(5);
-                            uttekst = uttekst + nr + ", "+passord+", "+fnavn + ", " + enavn + ", " + epost ;
-                            // Vi legger informasjonen inn i tabellen
-                            Object[] nyRad = {nr, passord, fnavn, enavn, epost};
-                            tabell.addRow(nyRad);
-                        }
-                        rs.close();
-                        if (uttekst.equals("")) {   
-                            uttekst = "Ingen studenter";
-                            lblFeilmelding.setText(uttekst);
-                        } 
-                        
-                        // Henter ut Antall Studenter
-                        int antStud = Kontroll.kontroll.getAntallStudenter();
-                        String ut = Integer.toString(antStud);
-                        lblAntStud.setText(ut);
-                        
-                        // Hent ut strykprosent
-                        int strpro = Kontroll.kontroll.getStrykprosent();
-                        String strykprosen = Integer.toString(strpro);
-                        lblStrykprosent.setText(strykprosen + "%");
-                        
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                    return null;
-                }
-                // Når søket er ferdig kjører denne:
-                protected void done() {
-                    dialog.dispose();
-                }
-            ;
-            }.execute();
-            dialog.setVisible(true);
-        } catch (Exception e) {
-        }
+        
+        // Radio-Gruppe for Oversikt-siden
+        ButtonGroup oversikt = new ButtonGroup();
+        oversikt.add(rbTotalt);
+        oversikt.add(rbEmne);
+        
+        // Laster inn oversikten
+        lastOversikt();
     }
 
     /**
@@ -139,6 +81,11 @@ public class Grensesnitt extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableOversikt = new javax.swing.JTable();
+        rbTotalt = new javax.swing.JRadioButton();
+        rbEmne = new javax.swing.JRadioButton();
+        cbEmne = new javax.swing.JComboBox();
+        jLabel8 = new javax.swing.JLabel();
+        lblGjennomsnittKarakter = new javax.swing.JLabel();
         jPanelAdd = new javax.swing.JPanel();
         rbStudent = new javax.swing.JRadioButton();
         rbFag = new javax.swing.JRadioButton();
@@ -220,6 +167,35 @@ public class Grensesnitt extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TableOversikt);
 
+        rbTotalt.setText("Totalt");
+        rbTotalt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbTotaltActionPerformed(evt);
+            }
+        });
+
+        rbEmne.setText("Emne");
+        rbEmne.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbEmneActionPerformed(evt);
+            }
+        });
+
+        cbEmne.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                cbEmneMouseReleased(evt);
+            }
+        });
+        cbEmne.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEmneActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Gjennomsnitt karakter:");
+
+        lblGjennomsnittKarakter.setText("jLabel9");
+
         javax.swing.GroupLayout jPanelOverviewLayout = new javax.swing.GroupLayout(jPanelOverview);
         jPanelOverview.setLayout(jPanelOverviewLayout);
         jPanelOverviewLayout.setHorizontalGroup(
@@ -230,39 +206,59 @@ public class Grensesnitt extends javax.swing.JFrame {
                     .addGroup(jPanelOverviewLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
                     .addGroup(jPanelOverviewLayout.createSequentialGroup()
-                        .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanelOverviewLayout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lblAntStud, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanelOverviewLayout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblStrykprosent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanelOverviewLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblAntStud, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelOverviewLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblStrykprosent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(lblGjennomsnittKarakter)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblFeilmelding, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(122, 122, 122))))
+                        .addGap(122, 122, 122))
+                    .addGroup(jPanelOverviewLayout.createSequentialGroup()
+                        .addComponent(rbTotalt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbEmne)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbEmne, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanelOverviewLayout.setVerticalGroup(
             jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelOverviewLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbTotalt)
+                    .addComponent(rbEmne)
+                    .addComponent(cbEmne, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
                 .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelOverviewLayout.createSequentialGroup()
                         .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(lblAntStud, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStrykprosent, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelOverviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(lblStrykprosent, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel8)
+                            .addComponent(lblGjennomsnittKarakter)))
                     .addComponent(lblFeilmelding, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -557,7 +553,7 @@ public class Grensesnitt extends javax.swing.JFrame {
                     .addComponent(lblOppHarKarakter, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOppmelding)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addContainerGap(459, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Oppmelding", jPanelOppmelding);
@@ -570,13 +566,84 @@ public class Grensesnitt extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    public void lastOversikt() {
+        /*
+        == OVERSIKT ALLE STUDENTER - Lastes inne i Grensesnitt()
+        ============================================================================
+        == Vi laster inn oversikten over alle studenter ved oppstart av programmet.
+        == Ved innlasting utfører vi flere operasjoner. Vi begynner med en SwingWorker 
+        == doInBackground()-funksjon som henter ut infomasjon fra DB mens vi venter. 
+        == Vi fyller ut antall studenter, strykprosent, og vi lister ut en oversikt over 
+        == alle studentene til slutt.
+        ============================================================================
+        */
+        JOptionPane messagePane = new JOptionPane(
+        "Finner database... Vennligst vent.",
+        JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = messagePane.createDialog(this, "Søker.");
+         try {
+            new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    // Henter ut alle studenter:
+                    String uttekst = ""; // Ved tom liste viser vi denne
+                    String nr, passord, fnavn, enavn, epost;
+                    rbTotalt.setSelected(true);
+                    cbEmne.setVisible(false);
+                    jLabel8.setVisible(false);
+                    lblGjennomsnittKarakter.setVisible(false);
+                    jLabel3.setText("Total strykprosent");
+                    try {
+                        ResultSet rs = Kontroll.kontroll.hentAlleStudenter();
+                        DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
+                        while (rs.next()) {
+                            nr = rs.getString(1);
+                            passord = rs.getString(2);
+                            fnavn = rs.getString(3);
+                            enavn = rs.getString(4);
+                            epost = rs.getString(5);
+                            uttekst = uttekst + nr + ", "+passord+", "+fnavn + ", " + enavn + ", " + epost ;
+                            // Vi legger informasjonen inn i tabellen
+                            Object[] nyRad = {nr, passord, fnavn, enavn, epost};
+                            tabell.addRow(nyRad);
+                        }
+                        rs.close();
+                        if (uttekst.equals("")) {   
+                            uttekst = "Ingen studenter";
+                            lblFeilmelding.setText(uttekst);
+                        } 
+                        
+                        // Henter ut Antall Studenter
+                        int antStud = Kontroll.kontroll.getAntallStudenter();
+                        String ut = Integer.toString(antStud);
+                        lblAntStud.setText(ut);
+                        
+                        // Hent ut strykprosent
+                        int strpro = Kontroll.kontroll.getStrykprosent();
+                        String strykprosen = Integer.toString(strpro);
+                        lblStrykprosent.setText(strykprosen + "%");
+                        
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    return null;
+                }
+                // Når søket er ferdig kjører denne:
+                protected void done() {
+                    dialog.dispose();
+                }
+            ;
+            }.execute();
+            dialog.setVisible(true);
+        } catch (Exception e) {
+        }
+    }
     
     /*
     == RADIOBUTTON - Fag
@@ -1111,6 +1178,74 @@ public class Grensesnitt extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtSearchKeyReleased
 
+    private void rbTotaltActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTotaltActionPerformed
+        DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
+        tabell.setRowCount(0);
+        lastOversikt();
+    }//GEN-LAST:event_rbTotaltActionPerformed
+
+    private void rbEmneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEmneActionPerformed
+        DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
+        tabell.setRowCount(0);
+        cbEmne.setVisible(true);
+        lblGjennomsnittKarakter.setVisible(true);
+        jLabel8.setVisible(true);
+        jLabel3.setText("Strykprosent:");
+        try {
+             // Henter ut alle fag
+            String fagliste;
+            ResultSet rs = Kontroll.kontroll.getAlleFag();
+            while (rs.next()) {
+                fagliste = rs.getString(1) + " - ";
+                fagliste += rs.getString(2);
+                cbEmne.addItem(fagliste);
+            }
+            rs.close();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_rbEmneActionPerformed
+
+    private void cbEmneMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbEmneMouseReleased
+        
+        
+    }//GEN-LAST:event_cbEmneMouseReleased
+
+    private void cbEmneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEmneActionPerformed
+        DefaultTableModel tabell = (DefaultTableModel) TableOversikt.getModel();
+        tabell.setRowCount(0);
+        String fag, fagnr,nr, fnavn,enavn, epost, ant, stryk, snitt;
+        String uttekst = "";
+        int fagkode;
+        fag = cbEmne.getSelectedItem().toString();
+        fagnr = fag.substring(0, fag.indexOf(" "));
+        fagkode = Integer.parseInt(fagnr.trim());
+
+        // Her henter vi ut info om fag
+        try {
+            ResultSet rs = Kontroll.kontroll.getKursDeltakere(fagkode);
+            while (rs.next()) {
+                nr = rs.getString(1);
+                fnavn = rs.getString(2);
+                enavn = rs.getString(3);
+                epost = rs.getString(4);
+                uttekst = uttekst + nr + ", " + ", " + fnavn + ", " + enavn + ", " + epost;
+                // Vi legger informasjonen inn i tabellen
+                Object[] nyRad = {nr, fnavn, enavn, epost};
+                tabell.addRow(nyRad);
+            }
+            rs.close();
+            ant = Kontroll.kontroll.getKursAntall(fagkode);
+            stryk = Kontroll.kontroll.getKursStryk(fagkode);
+            snitt = Kontroll.kontroll.getKursAntall(fagkode);
+            lblAntStud.setText(ant);
+            lblStrykprosent.setText(stryk);
+            lblGjennomsnittKarakter.setText(snitt);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_cbEmneActionPerformed
+
+    // Nullstiller OPPMELDING
     public void nullstill() {
         cbOppVelgFag.removeAllItems();
         cbOppVelgFag.setVisible(false);
@@ -1157,6 +1292,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JTable TableOversikt;
     private javax.swing.JButton btnOppmelding;
     private javax.swing.JToggleButton btnReg;
+    private javax.swing.JComboBox cbEmne;
     private javax.swing.JComboBox cbFagnr;
     private javax.swing.JComboBox cbKarakter;
     private javax.swing.JComboBox cbOppVelgFag;
@@ -1170,6 +1306,7 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanelAdd;
     private javax.swing.JPanel jPanelOppmelding;
     private javax.swing.JPanel jPanelOverview;
@@ -1182,16 +1319,19 @@ public class Grensesnitt extends javax.swing.JFrame {
     private javax.swing.JLabel lbl4;
     private javax.swing.JLabel lblAntStud;
     private javax.swing.JLabel lblFeilmelding;
+    private javax.swing.JLabel lblGjennomsnittKarakter;
     private javax.swing.JLabel lblOppHarKarakter;
     private javax.swing.JLabel lblStrykprosent;
     private javax.swing.JLabel lblStud;
     private javax.swing.JLabel lblStudentInfo;
     private javax.swing.JLabel lblVelgFag;
+    private javax.swing.JRadioButton rbEmne;
     private javax.swing.JRadioButton rbEnavn;
     private javax.swing.JRadioButton rbEpost;
     private javax.swing.JRadioButton rbFag;
     private javax.swing.JRadioButton rbKarakter;
     private javax.swing.JRadioButton rbStudent;
+    private javax.swing.JRadioButton rbTotalt;
     private javax.swing.JTextField txt1;
     private javax.swing.JTextField txt2;
     private javax.swing.JTextField txt3;

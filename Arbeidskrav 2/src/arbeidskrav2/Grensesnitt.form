@@ -28,7 +28,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="466" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -64,23 +64,38 @@
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" alignment="1" pref="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="1" pref="814" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="lblAntStud" min="-2" pref="32" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="lblAntStud" min="-2" pref="32" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="lblStrykprosent" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lblStrykprosent" max="32767" attributes="0"/>
+                                      <Component id="lblGjennomsnittKarakter" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="lblFeilmelding" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="rbTotalt" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="rbEmne" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cbEmne" min="-2" pref="193" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -89,17 +104,27 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="rbTotalt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rbEmne" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbEmne" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblAntStud" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblStrykprosent" min="-2" pref="14" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblStrykprosent" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+                                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblGjennomsnittKarakter" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="lblFeilmelding" min="-2" pref="41" max="-2" attributes="0"/>
@@ -107,7 +132,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="316" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="441" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -210,6 +235,43 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JRadioButton" name="rbTotalt">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Totalt"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbTotaltActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="rbEmne">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Emne"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbEmneActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbEmne">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbEmneMouseReleased"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbEmneActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Gjennomsnitt karakter:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblGjennomsnittKarakter">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel9"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanelAdd">
@@ -589,7 +651,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnOppmelding" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="326" max="32767" attributes="0"/>
+                      <EmptySpace pref="459" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
